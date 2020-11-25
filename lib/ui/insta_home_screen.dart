@@ -22,7 +22,10 @@ class _InstaHomeScreenState extends State<InstaHomeScreen> {
 
   void navigationTapped(int page) {
     //Animating Page
-    pageController.jumpToPage(page);
+    pageController.jumpToPage(
+      page,
+      /* curve: Curves.easeIn, duration: Duration(milliseconds: 200)*/
+    );
   }
 
   void onPageChanged(int page) {
@@ -49,23 +52,23 @@ class _InstaHomeScreenState extends State<InstaHomeScreen> {
       body: new PageView(
         children: [
           new Container(
-            color: Colors.white,
+            color: Color(0xff252E39), //Colors.white,
             child: HomePage(), //InstaFeedScreen(),
           ),
           new Container(
-            color: Color(0xFF2C3F3F),
+            color: Color(0xff252E39), //Color(0xFF2C3F3F),
             child: InstaSearchScreen(),
           ),
           new Container(
-            color: Colors.white,
+            color: Color(0xff252E39), //Colors.white,
             child: InstaAddScreen(),
           ),
           new Container(
-            color: Colors.white,
+            color: Color(0xff252E39), //Colors.white,
             child: ChatScreen(),
           ), //InstaActivityScreen()),
           new Container(
-            color: Color(0xFF2C3F3F),
+            color: Color(0xff252E39), //Color(0xFF2C3F3F),
             child: InstaProfileScreen(),
           ),
         ],
@@ -74,48 +77,86 @@ class _InstaHomeScreenState extends State<InstaHomeScreen> {
         onPageChanged: onPageChanged,
       ),
       bottomNavigationBar: new CupertinoTabBar(
-        backgroundColor: Color(0xFF2C3F3F),
-        activeColor: Colors.orange,
+        backgroundColor:
+            Color(0xff252E39), //Color(0xff242A37), //Colors.grey[100],
+        //  activeColor: Colors.orange,
         items: <BottomNavigationBarItem>[
           new BottomNavigationBarItem(
-              icon: new Icon(
-                Icons.home,
-                color: (_page == 0) ? Colors.orange : Colors.white,
-                size: 25,
+              activeIcon: Container(
+                height: MediaQuery.of(context).size.height / 35,
+                child: Image.asset(
+                    'assets/Navigation Icons/Home When Selected.png'),
               ),
-              title: new Container(height: 0.0),
+              icon: Container(
+                height: MediaQuery.of(context).size.height / 35,
+                child: Image.asset('assets/Navigation Icons/Home White.png'),
+              ),
+              title: Text(
+                'Home',
+                style: TextStyle(
+                    color: (_page == 0) ? Colors.orange : Colors.white),
+              ),
               backgroundColor: Colors.white),
           new BottomNavigationBarItem(
-              icon: new Icon(
-                Icons.search,
-                color: (_page == 1) ? Colors.orange : Colors.white,
-                size: 25,
+              activeIcon: Container(
+                height: MediaQuery.of(context).size.height / 35,
+                child: Image.asset(
+                    'assets/Navigation Icons/Search When Selected.png'),
               ),
-              title: new Container(height: 0.0),
+              icon: Container(
+                height: MediaQuery.of(context).size.height / 35,
+                child: Image.asset('assets/Navigation Icons/Search White.png'),
+              ),
+              title: Text(
+                'Search',
+                style: TextStyle(
+                    color: (_page == 1) ? Colors.orange : Colors.white),
+              ),
               backgroundColor: Colors.white),
           new BottomNavigationBarItem(
-              icon: new Icon(
-                Icons.camera_alt,
-                color: (_page == 2) ? Colors.orange : Colors.white,
-                size: 25,
+              activeIcon: Container(
+                height: MediaQuery.of(context).size.height / 20,
+                child: Image.asset('assets/Navigation Icons/Camera.png'),
               ),
-              title: new Container(height: 0.0),
+              icon: Container(
+                height: MediaQuery.of(context).size.height / 22,
+                child: Image.asset('assets/Navigation Icons/Camera.png'),
+              ),
+              //label: '',
               backgroundColor: Colors.white),
           new BottomNavigationBarItem(
-              icon: new Icon(
-                FontAwesomeIcons.comments,
-                color: (_page == 3) ? Colors.orange : Colors.white,
-                size: 23,
+              activeIcon: Container(
+                height: MediaQuery.of(context).size.height / 35,
+                child: Image.asset(
+                    'assets/Navigation Icons/Inbox When Selected.png'),
               ),
-              title: new Container(height: 0.0),
+              icon: Container(
+                height: MediaQuery.of(context).size.height / 35,
+                child: Image.asset('assets/Navigation Icons/Inbox White.png'),
+              ),
+              title: Text(
+                'Inbox',
+                style: TextStyle(
+                    color: (_page == 3) ? Colors.orange : Colors.white),
+              ),
               backgroundColor: Colors.white),
           new BottomNavigationBarItem(
-              icon: new Icon(
-                Icons.person,
-                color: (_page == 4) ? Colors.orange : Colors.white,
-                size: 25,
+              activeIcon: Container(
+                height: MediaQuery.of(context).size.height / 35,
+                padding: EdgeInsets.all(0),
+                margin: EdgeInsets.all(0),
+                child:
+                    Image.asset('assets/Navigation Icons/Me When Selected.png'),
               ),
-              title: new Container(height: 0.0),
+              icon: Container(
+                height: MediaQuery.of(context).size.height / 35,
+                child: Image.asset('assets/Navigation Icons/Me White.png'),
+              ),
+              title: Text(
+                'Me',
+                style: TextStyle(
+                    color: (_page == 4) ? Colors.orange : Colors.white),
+              ),
               backgroundColor: Colors.white),
         ],
         onTap: navigationTapped,

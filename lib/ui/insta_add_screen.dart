@@ -109,7 +109,7 @@ class _InstaAddScreenState extends State<InstaAddScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Color(0xFF2C3F3F),
+      backgroundColor: Color(0xff252E39), //Color(0xFF2C3F3F),
       // appBar: AppBar(
       //   elevation: 0,
       //   backgroundColor: Color(0xFF2C3F3F),

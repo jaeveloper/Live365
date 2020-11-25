@@ -35,11 +35,11 @@ class _SplashScreenState extends State<SplashScreen> {
   Widget build(BuildContext context) {
     precacheImage(AssetImage("assets/images/agoraLogo.png"), context);
     return Scaffold(
-      backgroundColor: Color(0xFF2C3F3F),
+      backgroundColor: Color(0xff252E39), //Color(0xFF2C3F3F),
       body: Container(
         height: MediaQuery.of(context).size.height,
         width: MediaQuery.of(context).size.width,
-        color: Color(0xFF2C3F3F),
+        color: Color(0xff252E39), //Color(0xFF2C3F3F),
         child: Column(
           children: <Widget>[
             Container(

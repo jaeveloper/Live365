@@ -57,7 +57,7 @@ class _InstaProfileScreenState extends State<InstaProfileScreen> {
       child: Scaffold(
         extendBody: true,
         extendBodyBehindAppBar: true,
-        backgroundColor: Color(0xFF2C3F3F),
+        backgroundColor: Color(0xff252E39), //Color(0xFF2C3F3F),
         body: _user != null
             ? ListView(
                 physics: NeverScrollableScrollPhysics(),

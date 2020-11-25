@@ -51,10 +51,10 @@ class _InstaSearchScreenState extends State<InstaSearchScreen> {
   Widget build(BuildContext context) {
     print("INSIDE BUILD");
     return Scaffold(
-      backgroundColor: Color(0xFF2C3F3F),
+      backgroundColor: Color(0xff252E39), //Color(0xFF2C3F3F),
       appBar: AppBar(
         elevation: 0,
-        backgroundColor: Color(0xFF2C3F3F),
+        backgroundColor: Color(0xff252E39), //Color(0xFF2C3F3F),
         title: Container(
             alignment: Alignment.center,
             padding: EdgeInsets.only(left: 30),

@@ -104,9 +104,9 @@ class _HomePageState extends State<HomePage> {
 
   Widget getMain() {
     return Scaffold(
-      backgroundColor: Color(0xFF2C3F3F),
+      backgroundColor: Color(0xff252E39), //Color(0xFF2C3F3F),
       appBar: AppBar(
-        backgroundColor: Color(0xFF2C3F3F),
+        backgroundColor: Color(0xff252E39), //Color(0xFF2C3F3F),
         elevation: 0,
         title: Container(
           alignment: Alignment.center,
@@ -159,7 +159,7 @@ class _HomePageState extends State<HomePage> {
         ),
       ),
       body: Container(
-          color: Color(0xFF2C3F3F),
+          color: Color(0xff252E39), //Color(0xFF2C3F3F),
           child: ListView(
             children: <Widget>[
               Column(
