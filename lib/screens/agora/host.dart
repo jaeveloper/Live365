@@ -1,8 +1,8 @@
 import 'dart:async';
-import 'package:agorartm/firebaseDB/firestoreDB.dart';
 import 'package:agora_rtc_engine/agora_rtc_engine.dart';
 import 'package:agora_rtm/agora_rtm.dart';
-import 'package:agorartm/models/message.dart';
+import 'package:agorartm/firebaseDB/firestoreDB.dart';
+import 'package:agorartm/liveComments/message.dart';
 import 'package:agorartm/models/user.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/cupertino.dart';
@@ -689,8 +689,8 @@ class _CallPageState extends State<CallPage> {
               setState(() {
                 waiting = true;
               });
-              await _channel.sendMessage(
-                  AgoraRtmMessage.fromText('d1a2v3i4s5h6 ${users.username}'));
+              await _channel.sendMessage(AgoraRtmMessage.fromText(
+                  'd1a2v3i4s5h6 ${users.displayName}'));
             },
             child: Container(
                 padding: EdgeInsets.only(left: 15),
@@ -698,7 +698,7 @@ class _CallPageState extends State<CallPage> {
                 child: Row(
                   children: <Widget>[
                     CachedNetworkImage(
-                      imageUrl: users.image,
+                      imageUrl: users.photoUrl,
                       imageBuilder: (context, imageProvider) => Container(
                         width: 40.0,
                         height: 40.0,
@@ -714,7 +714,7 @@ class _CallPageState extends State<CallPage> {
                       child: Column(
                         children: <Widget>[
                           Text(
-                            users.username,
+                            users.displayName,
                             style: TextStyle(fontSize: 18, color: Colors.white),
                           ),
                           SizedBox(
@@ -994,7 +994,8 @@ class _CallPageState extends State<CallPage> {
       var img = await FireStoreClass.getImage(username: member.userId);
       var nm = await FireStoreClass.getName(username: member.userId);
       setState(() {
-        userList.add(new User(username: member.userId, name: nm, image: img));
+        userList
+            .add(new User(displayName: member.userId, name: nm, photoUrl: img));
         if (userList.length > 0) anyPerson = true;
       });
       userMap.putIfAbsent(member.userId, () => img);
@@ -1011,7 +1012,7 @@ class _CallPageState extends State<CallPage> {
     channel.onMemberLeft = (AgoraRtmMember member) {
       var len;
       setState(() {
-        userList.removeWhere((element) => element.username == member.userId);
+        userList.removeWhere((element) => element.displayName == member.userId);
         if (userList.length == 0) anyPerson = false;
       });
 

@@ -1,7 +1,6 @@
-
-import 'package:agorartm/screen/SplashScreen.dart';
-import 'package:agorartm/screen/home.dart';
-import 'package:agorartm/screen/loginScreen.dart';
+import 'package:agorartm/screens/SplashScreen.dart';
+import 'package:agorartm/screens/loginScreen.dart';
+import 'package:agorartm/ui/insta_home_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -15,7 +14,6 @@ void main() {
 }
 
 class MyApp extends StatelessWidget {
-
   // This widget is the root of your application.
 
   final MaterialColor blackColor = const MaterialColor(
@@ -37,8 +35,15 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Agoragram',
-      color: blackColor,
+      title: 'Instagram',
+      debugShowCheckedModeBanner: false,
+      theme: new ThemeData(
+          primarySwatch: Colors.blue,
+          primaryColor: Colors.white,
+          primaryIconTheme: IconThemeData(color: Colors.white70),
+          primaryTextTheme: TextTheme(
+              title: TextStyle(color: Colors.black54, fontFamily: "Aveny")),
+          textTheme: TextTheme(title: TextStyle(color: Colors.black54))),
       home: SplashScreen(),
       routes: <String, WidgetBuilder>{
         '/HomeScreen': (BuildContext context) => new MainScreen()
@@ -48,21 +53,19 @@ class MyApp extends StatelessWidget {
 }
 
 class MainScreen extends StatefulWidget {
-
   @override
   _MainScreenState createState() => _MainScreenState();
 }
 
 class _MainScreenState extends State<MainScreen> {
-
-  var loggedIn=false;
+  var loggedIn = false;
   @override
   void initState() {
     super.initState();
     loadSharedPref();
   }
 
-  void loadSharedPref() async{
+  void loadSharedPref() async {
     final prefs = await SharedPreferences.getInstance();
 
     setState(() {
@@ -70,14 +73,9 @@ class _MainScreenState extends State<MainScreen> {
     });
   }
 
-
-
   @override
   Widget build(BuildContext context) {
     loadSharedPref();
-    return loggedIn? HomePage(): LoginScreen();
+    return loggedIn ? InstaHomeScreen() : LoginScreen();
   }
-
-
 }
-

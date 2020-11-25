@@ -24,6 +24,11 @@ dependencies:
   flutter:
     sdk: flutter
 
+  location:
+  image: 
+  geocoder:
+  file_picker:
+  rxdart:
   flutter_launcher_icons: 0.7.5
   shared_preferences: 0.5.7
   agora_rtc_engine: 1.0.5

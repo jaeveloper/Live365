@@ -1,6 +1,6 @@
+import 'package:agorartm/firebaseDB/firestoreDB.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:google_sign_in/google_sign_in.dart';
-import 'package:agorartm/firebaseDB/firestoreDB.dart';
 import 'dart:async';
 
 import 'package:shared_preferences/shared_preferences.dart';
@@ -9,10 +9,8 @@ final FirebaseAuth _auth = FirebaseAuth.instance;
 final GoogleSignIn googleSignIn = GoogleSignIn();
 
 Future<String> signInWithGoogle() async {
-
   final googleSignInAccount = await googleSignIn.signIn();
-  final googleSignInAuthentication =
-  await googleSignInAccount.authentication;
+  final googleSignInAuthentication = await googleSignInAccount.authentication;
 
   final credential = GoogleAuthProvider.getCredential(
     accessToken: googleSignInAuthentication.accessToken,
@@ -29,22 +27,23 @@ Future<String> signInWithGoogle() async {
   return 'signInWithGoogle succeeded: $user';
 }
 
-void signOutGoogle() async{
+void signOutGoogle() async {
   await googleSignIn.signOut();
   print('User Sign Out');
 }
 
-Future<int> registerUser({email, name, pass, username, image}) async{
-  var _auth= FirebaseAuth.instance;
-  try{
+Future<int> registerUser({email, name, pass, username, image}) async {
+  var _auth = FirebaseAuth.instance;
+  try {
     final prefs = await SharedPreferences.getInstance();
     await prefs.setString('name', name);
     await prefs.setString('username', username);
     var userNameExists = await FireStoreClass.checkUsername(username: username);
-    if(!userNameExists) {
+    if (!userNameExists) {
       return -1;
     }
-    var result = await _auth.createUserWithEmailAndPassword(email: email, password: pass);
+    var result = await _auth.createUserWithEmailAndPassword(
+        email: email, password: pass);
 
     var user = result.user;
 
@@ -53,10 +52,15 @@ Future<int> registerUser({email, name, pass, username, image}) async{
     info.photoUrl = '/';
 
     await user.updateProfile(info);
-    await FireStoreClass.regUser(name: name,email: email,username: username,image: image);
+    await FireStoreClass.regUser(
+      name: name,
+      email: email,
+      uid: user.uid,
+      image: image,
+      username: username,
+    );
     return 1;
-  }
-  catch(e){
+  } catch (e) {
     print(e.code);
     switch (e.code) {
       case 'ERROR_INVALID_EMAIL':
@@ -65,7 +69,7 @@ Future<int> registerUser({email, name, pass, username, image}) async{
       case 'ERROR_EMAIL_ALREADY_IN_USE':
         return -3;
         break;
-        /*
+      /*
       case 'ERROR_USER_NOT_FOUND':
         authError = 'User Not Found';
         break;
@@ -81,27 +85,25 @@ Future<int> registerUser({email, name, pass, username, image}) async{
   }
 }
 
-Future<void> logout() async{
+Future<void> logout() async {
   var _auth = FirebaseAuth.instance;
   final prefs = await SharedPreferences.getInstance();
   prefs.clear();
   _auth.signOut();
 }
 
-Future<int> loginFirebase(String email, String pass) async{
+Future<int> loginFirebase(String email, String pass) async {
   var _auth = FirebaseAuth.instance;
   try {
-    await FireStoreClass.getDetails(email:email);
-    var result = await _auth.signInWithEmailAndPassword(
-        email: email, password: pass);
+    await FireStoreClass.getDetails(email: email);
+    var result =
+        await _auth.signInWithEmailAndPassword(email: email, password: pass);
     var user = result.user;
-    if(user==null) {
+    if (user == null) {
       return null;
     }
     return 1;
-  }
-  catch(e)
-  {
+  } catch (e) {
     switch (e.code) {
       case 'ERROR_WRONG_PASSWORD':
         return -1;

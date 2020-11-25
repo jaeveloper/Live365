@@ -3,20 +3,17 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:gradient_text/gradient_text.dart';
 
-class SplashScreen extends StatefulWidget{
-
+class SplashScreen extends StatefulWidget {
   @override
   _SplashScreenState createState() => _SplashScreenState();
 }
 
 class _SplashScreenState extends State<SplashScreen> {
-
   var image = Image.asset('assets/images/agoraLogo.png');
   @override
   void initState() {
     super.initState();
     startTime();
-
   }
 
   @override
@@ -26,7 +23,7 @@ class _SplashScreenState extends State<SplashScreen> {
   }
 
   startTime() async {
-    var _duration = new Duration(seconds: 3);
+    var _duration = new Duration(seconds: 4);
     return new Timer(_duration, navigationPage);
   }
 
@@ -34,19 +31,19 @@ class _SplashScreenState extends State<SplashScreen> {
     Navigator.of(context).pushReplacementNamed('/HomeScreen');
   }
 
-
   @override
   Widget build(BuildContext context) {
     precacheImage(AssetImage("assets/images/agoraLogo.png"), context);
     return Scaffold(
+      backgroundColor: Color(0xFF2C3F3F),
       body: Container(
         height: MediaQuery.of(context).size.height,
         width: MediaQuery.of(context).size.width,
-        color: Colors.grey[900],
+        color: Color(0xFF2C3F3F),
         child: Column(
           children: <Widget>[
             Container(
-              height: MediaQuery.of(context).size.height-100,
+              height: MediaQuery.of(context).size.height - 100,
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.center,
                 mainAxisAlignment: MainAxisAlignment.center,
@@ -61,30 +58,30 @@ class _SplashScreenState extends State<SplashScreen> {
                 ],
               ),
             ),
-            Container(
-              alignment: Alignment.center,
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.center,
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: <Widget>[
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: <Widget>[
-                      Text('With ', style: TextStyle(color: Colors.white,fontSize: 13),),
-                      Icon(Icons.favorite, color: Colors.blue,)
-                    ],
-                  ),
-                  SizedBox(height: 4,),
-                  GradientText('DEVELOPERS',
-                      gradient: LinearGradient(
-                          colors: [Colors.lightBlueAccent,  Colors.blue, Colors.indigo]),
-                      style: TextStyle(fontSize: 16,),
-                      textAlign: TextAlign.center,
-                  ),
+            // Container(
+            //   alignment: Alignment.center,
+            //   child: Column(
+            //     crossAxisAlignment: CrossAxisAlignment.center,
+            //     mainAxisAlignment: MainAxisAlignment.center,
+            //     children: <Widget>[
+            //       Row(
+            //         mainAxisAlignment: MainAxisAlignment.center,
+            //         children: <Widget>[
+            //           Text('With ', style: TextStyle(color: Colors.white,fontSize: 13),),
+            //           Icon(Icons.favorite, color: Colors.blue,)
+            //         ],
+            //       ),
+            //       SizedBox(height: 4,),
+            //       GradientText('DEVELOPERS',
+            //           gradient: LinearGradient(
+            //               colors: [Colors.lightBlueAccent,  Colors.blue, Colors.indigo]),
+            //           style: TextStyle(fontSize: 16,),
+            //           textAlign: TextAlign.center,
+            //       ),
 
-                ],
-              ),
-            )
+            //     ],
+            //   ),
+            // )
           ],
         ),
       ),
