@@ -4,7 +4,6 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'dart:async';
 
-import 'package:shared_preferences/shared_preferences.dart';
 
 class FireStoreClass {
   static final Firestore _db = Firestore.instance;
@@ -62,11 +61,6 @@ class FireStoreClass {
 
     await storageReference.getDownloadURL().then((fileURL) async {
       // To fetch the uploaded data's url
-      final prefs = await SharedPreferences.getInstance();
-      await prefs.setString('name', name);
-      await prefs.setString('username', username);
-      await prefs.setString('email', email);
-      await prefs.setString('image', fileURL);
 
       await _db.collection(userCollection).document(uid).setData({
         'name': name,
@@ -92,9 +86,5 @@ class FireStoreClass {
     var document = await Firestore.instance.document('user_email/$email').get();
     var checkData = document.data;
     if (checkData == null) return;
-    final prefs = await SharedPreferences.getInstance();
-    await prefs.setString('name', document.data['name']);
-    await prefs.setString('username', document.data['username']);
-    await prefs.setString('image', document.data['image']);
   }
 }

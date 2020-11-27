@@ -2,8 +2,8 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:agorartm/models/user.dart';
 import 'package:agorartm/resources/repository.dart';
-import 'package:agorartm/ui/insta_friend_profile_screen.dart';
-import 'package:agorartm/ui/insta_profile_screen.dart';
+import 'package:agorartm/screens/insta_friend_profile_screen.dart';
+import 'package:agorartm/screens/insta_profile_screen.dart';
 
 class LikesScreen extends StatefulWidget {
   final DocumentReference documentReference;

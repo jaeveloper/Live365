@@ -3,7 +3,6 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'dart:async';
 
-import 'package:shared_preferences/shared_preferences.dart';
 
 final FirebaseAuth _auth = FirebaseAuth.instance;
 final GoogleSignIn googleSignIn = GoogleSignIn();
@@ -35,9 +34,6 @@ void signOutGoogle() async {
 Future<int> registerUser({email, name, pass, username, image}) async {
   var _auth = FirebaseAuth.instance;
   try {
-    final prefs = await SharedPreferences.getInstance();
-    await prefs.setString('name', name);
-    await prefs.setString('username', username);
     var userNameExists = await FireStoreClass.checkUsername(username: username);
     if (!userNameExists) {
       return -1;
@@ -87,8 +83,6 @@ Future<int> registerUser({email, name, pass, username, image}) async {
 
 Future<void> logout() async {
   var _auth = FirebaseAuth.instance;
-  final prefs = await SharedPreferences.getInstance();
-  prefs.clear();
   _auth.signOut();
 }
 

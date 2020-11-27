@@ -5,8 +5,8 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:agorartm/models/like.dart';
 import 'package:agorartm/models/user.dart';
 import 'package:agorartm/resources/repository.dart';
-import 'package:agorartm/ui/comments_screen.dart';
-import 'package:agorartm/ui/likes_screen.dart';
+import 'package:agorartm/screens/comments_screen.dart';
+import 'package:agorartm/screens/likes_screen.dart';
 
 class PostDetailScreen extends StatefulWidget {
   final DocumentSnapshot documentSnapshot;

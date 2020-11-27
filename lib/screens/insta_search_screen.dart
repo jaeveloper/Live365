@@ -6,8 +6,8 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:agorartm/models/user.dart';
 import 'package:agorartm/resources/repository.dart';
-import 'package:agorartm/ui/insta_friend_profile_screen.dart';
-import 'package:agorartm/ui/post_detail_screen.dart';
+import 'package:agorartm/screens/insta_friend_profile_screen.dart';
+import 'package:agorartm/screens/post_detail_screen.dart';
 
 class InstaSearchScreen extends StatefulWidget {
   @override
@@ -29,20 +29,26 @@ class _InstaSearchScreenState extends State<InstaSearchScreen> {
       _user.displayName = user.displayName;
       _user.photoUrl = user.photoUrl;
       _repository.fetchUserDetailsById(user.uid).then((user) {
-        setState(() {
-          currentUser = user;
-        });
+        if (mounted) {
+          setState(() {
+            currentUser = user;
+          });
+        }
       });
       print("USER : ${user.displayName}");
       _repository.retrievePosts(user).then((updatedList) {
-        setState(() {
-          list = updatedList;
-        });
+        if (mounted) {
+          setState(() {
+            list = updatedList;
+          });
+        }
       });
       _repository.fetchAllUsers(user).then((list) {
-        setState(() {
-          usersList = list;
-        });
+        if (mounted) {
+          setState(() {
+            usersList = list;
+          });
+        }
       });
     });
   }
@@ -163,7 +169,7 @@ class DataSearch extends SearchDelegate<String> {
     return ListView.builder(
       itemCount: suggestionsList.length,
       itemBuilder: ((context, index) => Container(
-            color: Color(0xFF2C3F3F),
+            color: Colors.orange, //Color(0xFF2C3F3F),
             child: ListTile(
               onTap: () {
                 //   showResults(context);

@@ -5,11 +5,13 @@ import 'package:agorartm/models/like.dart';
 import 'package:agorartm/models/message.dart';
 import 'package:agorartm/models/post.dart';
 import 'package:agorartm/models/user.dart';
+import 'package:agorartm/utils/utilities.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'dart:async';
 import 'package:firebase_storage/firebase_storage.dart';
+
 class FirebaseProvider {
   final FirebaseAuth _auth = FirebaseAuth.instance;
   final Firestore _firestore = Firestore.instance;
@@ -23,6 +25,7 @@ class FirebaseProvider {
 
   Future<void> addDataToDb(FirebaseUser currentUser) async {
     print("Inside addDataToDb Method");
+    String username = Utils.getUsername(currentUser.email);
 
     _firestore
         .collection("display_names")
@@ -31,8 +34,9 @@ class FirebaseProvider {
 
     user = User(
         uid: currentUser.uid,
+        name: currentUser.displayName,
         email: currentUser.email,
-        displayName: currentUser.displayName,
+        displayName: username,
         photoUrl: currentUser.photoUrl,
         followers: '0',
         following: '0',
@@ -74,8 +78,8 @@ class FirebaseProvider {
   }
 
   Future<void> signOut() async {
-    //  await _googleSignIn.disconnect();
-    //   await _googleSignIn.signOut();
+    await _googleSignIn.disconnect();
+    await _googleSignIn.signOut();
     return await _auth.signOut();
   }
 

@@ -1,99 +1,206 @@
 import 'dart:async';
-import 'package:async/async.dart';
+
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:shared_preferences/shared_preferences.dart';
-import 'package:cached_network_image/cached_network_image.dart';
-import 'package:agorartm/main.dart';
 import 'package:agorartm/models/like.dart';
 import 'package:agorartm/models/user.dart';
 import 'package:agorartm/resources/repository.dart';
-import 'package:agorartm/ui/comments_screen.dart';
-import 'package:agorartm/ui/edit_profile_screen.dart';
-import 'package:agorartm/ui/likes_screen.dart';
-import 'package:agorartm/ui/post_detail_screen.dart';
+import 'package:agorartm/screens/comments_screen.dart';
+import 'package:agorartm/screens/likes_screen.dart';
+import 'package:agorartm/screens/post_detail_screen.dart';
 
-class InstaProfileScreen extends StatefulWidget {
-  // InstaProfileScreen();
+class InstaFriendProfileScreen extends StatefulWidget {
+  final String name;
+  InstaFriendProfileScreen({this.name});
 
   @override
-  _InstaProfileScreenState createState() => _InstaProfileScreenState();
+  _InstaFriendProfileScreenState createState() =>
+      _InstaFriendProfileScreenState();
 }
 
-class _InstaProfileScreenState extends State<InstaProfileScreen> {
+class _InstaFriendProfileScreenState extends State<InstaFriendProfileScreen> {
+  String currentUserId, followingUserId;
   var _repository = Repository();
   Color _gridColor = Colors.blue;
   Color _listColor = Colors.grey;
   bool _isGridActive = true;
-  User _user;
+  User _user, currentuser;
   IconData icon;
   Color color;
   Future<List<DocumentSnapshot>> _future;
   bool _isLiked = false;
+  bool isFollowing = false;
+  bool followButtonClicked = false;
+  int postCount = 0;
+  int followerCount = 0;
+  int followingCount = 0;
+
+  fetchUidBySearchedName(String name) async {
+    print("NAME : ${name}");
+    String uid = await _repository.fetchUidBySearchedName(name);
+    setState(() {
+      followingUserId = uid;
+    });
+    fetchUserDetailsById(uid);
+    _future = _repository.retrieveUserPosts(uid);
+  }
+
+  fetchUserDetailsById(String userId) async {
+    User user = await _repository.fetchUserDetailsById(userId);
+    setState(() {
+      _user = user;
+      print("USER : ${_user.displayName}");
+    });
+  }
 
   @override
   void initState() {
     super.initState();
-    retrieveUserDetails();
-    icon = FontAwesomeIcons.heart;
+    _repository.getCurrentUser().then((user) {
+      _repository.fetchUserDetailsById(user.uid).then((currentUser) {
+        setState(() {
+          currentuser = currentUser;
+        });
+      });
+      _repository.checkIsFollowing(widget.name, user.uid).then((value) {
+        print("VALUE : ${value}");
+        setState(() {
+          isFollowing = value;
+        });
+      });
+      setState(() {
+        currentUserId = user.uid;
+      });
+    });
+    fetchUidBySearchedName(widget.name);
   }
 
-  retrieveUserDetails() async {
-    FirebaseUser currentUser = await _repository.getCurrentUser();
-    User user = await _repository.retrieveUserDetails(currentUser);
-    if (mounted) {
-      setState(() {
-        _user = user;
-      });
+  followUser() {
+    print('following user');
+    _repository.followUser(
+        currentUserId: currentUserId, followingUserId: followingUserId);
+    setState(() {
+      isFollowing = true;
+      followButtonClicked = true;
+    });
+  }
+
+  unfollowUser() {
+    _repository.unFollowUser(
+        currentUserId: currentUserId, followingUserId: followingUserId);
+    setState(() {
+      isFollowing = false;
+      followButtonClicked = true;
+    });
+  }
+
+  Widget buildButton(
+      {String text,
+      Color backgroundcolor,
+      Color textColor,
+      Color borderColor,
+      Function function}) {
+    return GestureDetector(
+      onTap: function,
+      child: Container(
+        width: 210.0,
+        height: 30.0,
+        decoration: BoxDecoration(
+            color: backgroundcolor,
+            borderRadius: BorderRadius.circular(8.0),
+            border: Border.all(color: borderColor)),
+        child: Center(
+          child: Text(text, style: TextStyle(color: textColor)),
+        ),
+      ),
+    );
+  }
+
+  Widget buildProfileButton() {
+    // already following user - should show unfollow button
+    if (isFollowing) {
+      return buildButton(
+        text: "Unfollow",
+        backgroundcolor: Colors.white,
+        textColor: Colors.black,
+        borderColor: Colors.grey,
+        function: unfollowUser,
+      );
     }
-    _future = _repository.retrieveUserPosts(_user.uid);
+
+    // does not follow user - should show follow button
+    if (!isFollowing) {
+      return buildButton(
+        text: "Follow",
+        backgroundcolor: Colors.blue,
+        textColor: Colors.white,
+        borderColor: Colors.blue,
+        function: followUser,
+      );
+    }
+
+    return buildButton(
+        text: "loading...",
+        backgroundcolor: Colors.white,
+        textColor: Colors.black,
+        borderColor: Colors.grey);
   }
 
   @override
   Widget build(BuildContext context) {
     return SafeArea(
       child: Scaffold(
-        extendBody: true,
-        extendBodyBehindAppBar: true,
         backgroundColor: Color(0xff252E39), //Color(0xFF2C3F3F),
         body: _user != null
             ? ListView(
                 physics: NeverScrollableScrollPhysics(),
                 children: <Widget>[
                   Column(
-                    mainAxisAlignment: MainAxisAlignment.start,
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: <Widget>[
                       Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: <Widget>[
-                          Container(
-                            alignment: Alignment.topCenter,
-                            padding: EdgeInsets.only(top: 10),
-                            child: IconButton(
-                                icon: Icon(
-                                  Icons.settings,
-                                  color: Colors.orange,
-                                ),
-                                color: Colors.black,
-                                onPressed: () {
-                                  Navigator.push(
-                                      context,
-                                      MaterialPageRoute(
-                                          builder: ((context) =>
-                                              EditProfileScreen(
-                                                  photoUrl: _user.photoUrl,
-                                                  email: _user.email,
-                                                  bio: _user.bio,
-                                                  name: _user.displayName,
-                                                  phone: _user.phone))));
-                                }),
+                          Container(),
+                          Padding(
+                            padding: const EdgeInsets.only(
+                              top: 40.0,
+                            ),
+                            child: Container(
+                              width: 110.0,
+                              height: 110.0,
+                              decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(80.0),
+                                image: DecorationImage(
+                                    image: _user.photoUrl.isEmpty
+                                        ? AssetImage('assets/no_image.png')
+                                        : NetworkImage(_user.photoUrl),
+                                    fit: BoxFit.cover),
+                              ),
+                            ),
                           ),
+                          Container()
+                        ],
+                      ),
+                      Padding(
+                        padding: const EdgeInsets.only(top: 10.0),
+                        child: Text(_user.name,
+                            style: TextStyle(
+                                color: Colors.white,
+                                fontWeight: FontWeight.bold,
+                                fontSize: 20.0)),
+                      ),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: <Widget>[
+                          Container(),
                           Container(
                             alignment: Alignment.bottomCenter,
-                            padding: const EdgeInsets.only(top: 23.0),
+                            padding: const EdgeInsets.only(top: 13.0, left: 40),
                             child: Text(_user.displayName,
                                 style: TextStyle(
                                     color: Colors.white,
@@ -102,63 +209,30 @@ class _InstaProfileScreenState extends State<InstaProfileScreen> {
                           ),
                           Container(
                             alignment: Alignment.topLeft,
-                            padding: EdgeInsets.only(top: 10),
+                            padding: EdgeInsets.only(top: 0),
                             child: IconButton(
-                              icon: Icon(
-                                Icons.settings_power,
-                                color: Colors.orange,
-                              ),
-                              color: Colors.black,
-                              onPressed: () {
-                                _repository.signOut().then((v) async {
-                                  final prefs =
-                                      await SharedPreferences.getInstance();
-                                  await prefs.setBool('login', false);
-                                  Navigator.pushReplacement(context,
-                                      MaterialPageRoute(builder: (context) {
-                                    return MyApp();
-                                  }));
-                                });
-                              },
-                            ),
+                                icon: Icon(
+                                  Icons.mail,
+                                  color: Colors.orange,
+                                ),
+                                color: Colors.black,
+                                onPressed: () {}),
                           ),
                         ],
                       ),
                       Padding(
-                        padding: const EdgeInsets.only(top: 20.0, bottom: 20.0),
-                        child: Container(
-                            width: 110.0,
-                            height: 110.0,
-                            decoration: BoxDecoration(
-                              borderRadius: BorderRadius.circular(80.0),
-                              image: DecorationImage(
-                                  image: _user.photoUrl.isEmpty
-                                      ? AssetImage('assets/no_image.png')
-                                      : NetworkImage(_user.photoUrl),
-                                  fit: BoxFit.cover),
-                            )),
-                      ),
-                      Container(
-                        alignment: Alignment.center,
-                        //padding: const EdgeInsets.only(left: 25.0, top: 30.0),
-                        child: Text(_user.name,
-                            style: TextStyle(
-                                color: Colors.white,
-                                fontWeight: FontWeight.bold,
-                                fontSize: 20.0)),
-                      ),
-                      Container(
-                        alignment: Alignment.center,
-                        //padding: const EdgeInsets.only(left: 25.0, top: 10.0),
+                        padding: const EdgeInsets.only(top: 10.0),
                         child: _user.bio.isNotEmpty
                             ? Text(
                                 _user.bio,
-                                style: TextStyle(color: Colors.white60),
+                                style: TextStyle(
+                                  color: Colors.white54,
+                                ),
                               )
                             : Container(),
                       ),
                       Padding(
-                        padding: const EdgeInsets.only(top: 20.0),
+                        padding: const EdgeInsets.only(top: 8),
                         child: Column(
                           children: <Widget>[
                             Container(
@@ -178,7 +252,8 @@ class _InstaProfileScreenState extends State<InstaProfileScreen> {
                                     StreamBuilder(
                                       stream: _repository
                                           .fetchStats(
-                                              uid: _user.uid, label: 'posts')
+                                              uid: followingUserId,
+                                              label: 'posts')
                                           .asStream(),
                                       builder: ((context,
                                           AsyncSnapshot<List<DocumentSnapshot>>
@@ -194,10 +269,11 @@ class _InstaProfileScreenState extends State<InstaProfileScreen> {
                                         }
                                       }),
                                     ),
+
                                     StreamBuilder(
                                       stream: _repository
                                           .fetchStats(
-                                              uid: _user.uid,
+                                              uid: followingUserId,
                                               label: 'followers')
                                           .asStream(),
                                       builder: ((context,
@@ -218,10 +294,11 @@ class _InstaProfileScreenState extends State<InstaProfileScreen> {
                                         }
                                       }),
                                     ),
+
                                     StreamBuilder(
                                       stream: _repository
                                           .fetchStats(
-                                              uid: _user.uid,
+                                              uid: followingUserId,
                                               label: 'following')
                                           .asStream(),
                                       builder: ((context,
@@ -242,88 +319,28 @@ class _InstaProfileScreenState extends State<InstaProfileScreen> {
                                         }
                                       }),
                                     ),
+
+                                    //   detailsWidget(_user.posts, 'posts'),
                                   ],
                                 ),
                               ),
                             ),
-                            //   GestureDetector(
-                            //     child: Padding(
-                            //       padding: const EdgeInsets.only(
-                            //           top: 12.0, left: 20.0, right: 20.0),
-                            //       child: Container(
-                            //         width: 210.0,
-                            //         height: 30.0,
-                            //         decoration: BoxDecoration(
-                            //             color: Colors.white,
-                            //             borderRadius: BorderRadius.circular(4.0),
-                            //             border: Border.all(color: Colors.grey)),
-                            //         child: Center(
-                            //           child: Text('Edit Profile',
-                            //               style: TextStyle(color: Colors.black)),
-                            //         ),
-                            //       ),
-                            //     ),
-                            //     onTap: () {
-                            //       Navigator.push(
-                            //           context,
-                            //           MaterialPageRoute(
-                            //               builder: ((context) =>
-                            //                   EditProfileScreen(
-                            //                       photoUrl: _user.photoUrl,
-                            //                       email: _user.email,
-                            //                       bio: _user.bio,
-                            //                       name: _user.displayName,
-                            //                       phone: _user.phone))));
-                            //     },
-                            //   )
+                            Padding(
+                              padding: const EdgeInsets.only(
+                                  top: 12.0, left: 20.0, right: 20.0),
+                              child: buildProfileButton(),
+                            )
                           ],
                         ),
                       )
                     ],
                   ),
-
-                  // Padding(
-                  //   padding: const EdgeInsets.only(top: 8.0),
-                  //   child: Row(
-                  //     mainAxisAlignment: MainAxisAlignment.spaceAround,
-                  //     children: <Widget>[
-                  //       GestureDetector(
-                  //         child: Icon(
-                  //           Icons.grid_on,
-                  //           color: _gridColor,
-                  //         ),
-                  //         onTap: () {
-                  //           setState(() {
-                  //             _isGridActive = true;
-                  //             _gridColor = Colors.blue;
-                  //             _listColor = Colors.grey;
-                  //           });
-                  //         },
-                  //       ),
-                  //       GestureDetector(
-                  //         child: Icon(
-                  //           Icons.stay_current_portrait,
-                  //           color: _listColor,
-                  //         ),
-                  //         onTap: () {
-                  //           setState(() {
-                  //             _isGridActive = false;
-                  //             _listColor = Colors.blue;
-                  //             _gridColor = Colors.grey;
-                  //           });
-                  //         },
-                  //       )
-                  //     ],
-                  //   ),
-                  // ),
                   Padding(
                     padding: const EdgeInsets.only(top: 0),
                     child: Divider(),
                   ),
                   Padding(
-                    padding: const EdgeInsets.only(
-                      left: 20.0,
-                    ),
+                    padding: const EdgeInsets.only(left: 20.0),
                     child: postImagesWidget(),
                   ),
                 ],
@@ -356,7 +373,7 @@ class _InstaProfileScreenState extends State<InstaProfileScreen> {
                         child: Center(
                           child: GestureDetector(
                             child: ClipRRect(
-                              borderRadius: BorderRadius.circular(10),
+                              borderRadius: BorderRadius.circular(20),
                               child: CachedNetworkImage(
                                 imageUrl: snapshot.data[index].data['imgUrl'],
                                 placeholder: ((context, s) => Center(
@@ -375,7 +392,7 @@ class _InstaProfileScreenState extends State<InstaProfileScreen> {
                                   MaterialPageRoute(
                                       builder: ((context) => PostDetailScreen(
                                             user: _user,
-                                            currentuser: _user,
+                                            currentuser: currentuser,
                                             documentSnapshot:
                                                 snapshot.data[index],
                                           ))));
@@ -409,7 +426,8 @@ class _InstaProfileScreenState extends State<InstaProfileScreen> {
                           itemBuilder: ((context, index) => ListItem(
                               list: snapshot.data,
                               index: index,
-                              user: _user))));
+                              user: _user,
+                              currentuser: currentuser))));
                 } else {
                   return Center(
                     child: CircularProgressIndicator(),
@@ -430,12 +448,12 @@ class _InstaProfileScreenState extends State<InstaProfileScreen> {
         Padding(
           padding: const EdgeInsets.only(top: 4.0),
           child: Text((label).toUpperCase(),
-              style: TextStyle(fontSize: 14.0, color: Colors.grey)),
+              style: TextStyle(fontSize: 16.0, color: Colors.grey)),
         ),
         Text(count,
             style: TextStyle(
                 fontWeight: FontWeight.bold,
-                fontSize: 20.0,
+                fontSize: 18.0,
                 color: Colors.black)),
       ],
     );
@@ -444,10 +462,10 @@ class _InstaProfileScreenState extends State<InstaProfileScreen> {
 
 class ListItem extends StatefulWidget {
   List<DocumentSnapshot> list;
-  User user;
+  User user, currentuser;
   int index;
 
-  ListItem({this.list, this.user, this.index});
+  ListItem({this.list, this.user, this.index, this.currentuser});
 
   @override
   _ListItemState createState() => _ListItemState();
@@ -474,7 +492,7 @@ class _ListItemState extends State<ListItem> {
                   MaterialPageRoute(
                       builder: ((context) => CommentsScreen(
                             documentReference: reference,
-                            user: widget.user,
+                            user: widget.currentuser,
                           ))));
             },
           );
@@ -489,7 +507,6 @@ class _ListItemState extends State<ListItem> {
   void initState() {
     super.initState();
     print("INDEX : ${widget.index}");
-    //_future =_repository.fetchPostLikes(widget.list[widget.index].reference);
   }
 
   @override
@@ -568,20 +585,20 @@ class _ListItemState extends State<ListItem> {
                             )
                           : Icon(
                               FontAwesomeIcons.heart,
-                              color: null,
+                              color: Colors.white70,
                             ),
                       onTap: () {
                         if (!_isLiked) {
                           setState(() {
                             _isLiked = true;
                           });
-                          // saveLikeValue(_isLiked);
+
                           postLike(widget.list[widget.index].reference);
                         } else {
                           setState(() {
                             _isLiked = false;
                           });
-                          //saveLikeValue(_isLiked);
+
                           postUnlike(widget.list[widget.index].reference);
                         }
                       }),
@@ -596,20 +613,19 @@ class _ListItemState extends State<ListItem> {
                               builder: ((context) => CommentsScreen(
                                     documentReference:
                                         widget.list[widget.index].reference,
-                                    user: widget.user,
+                                    user: widget.currentuser,
                                   ))));
                     },
                     child: new Icon(
                       FontAwesomeIcons.comment,
+                      color: Colors.white70,
                     ),
                   ),
                   new SizedBox(
                     width: 16.0,
                   ),
-                  new Icon(FontAwesomeIcons.paperPlane),
                 ],
               ),
-              new Icon(FontAwesomeIcons.bookmark)
             ],
           ),
         ),
@@ -682,13 +698,13 @@ class _ListItemState extends State<ListItem> {
 
   void postLike(DocumentReference reference) {
     var _like = Like(
-        ownerName: widget.user.displayName,
-        ownerPhotoUrl: widget.user.photoUrl,
-        ownerUid: widget.user.uid,
+        ownerName: widget.currentuser.displayName,
+        ownerPhotoUrl: widget.currentuser.photoUrl,
+        ownerUid: widget.currentuser.uid,
         timeStamp: FieldValue.serverTimestamp());
     reference
         .collection('likes')
-        .document(widget.user.uid)
+        .document(widget.currentuser.uid)
         .setData(_like.toMap(_like))
         .then((value) {
       print("Post Liked");
@@ -698,7 +714,7 @@ class _ListItemState extends State<ListItem> {
   void postUnlike(DocumentReference reference) {
     reference
         .collection("likes")
-        .document(widget.user.uid)
+        .document(widget.currentuser.uid)
         .delete()
         .then((value) {
       print("Post Unliked");

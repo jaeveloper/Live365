@@ -8,7 +8,6 @@ import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:intl/intl.dart';
 import 'package:permission_handler/permission_handler.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 import 'package:agorartm/models/live.dart';
 import 'package:agorartm/models/user.dart';
 import 'package:agorartm/resources/repository.dart';
@@ -59,17 +58,11 @@ class _HomePageState extends State<HomePage> {
   Future<void> loadSharedPref() async {
     FirebaseUser currentUser = await _repository.getCurrentUser();
     User user = await _repository.retrieveUserDetails(currentUser);
-    final prefs = await SharedPreferences.getInstance();
     setState(() {
-      _user = user;
-      //   name = _user.name ?? 'Name';
-      //   username = _user.displayName ?? 'Username';
-      //   image = _user.photoUrl ??
-      //       'https://nichemodels.co/wp-content/uploads/2019/03/user-dummy-pic.png';
-      name = prefs.getString('name') ?? 'Name';
-      username = prefs.getString('username') ?? 'Username';
-      image = prefs.getString('image') ??
-          'https://nichemodels.co/wp-content/uploads/2019/03/user-dummy-pic.png';
+        name = user.name ?? 'Name';
+        username = user.displayName ?? 'Username';
+        image = user.photoUrl ??
+            'https://nichemodels.co/wp-content/uploads/2019/03/user-dummy-pic.png';
     });
   }
 
@@ -104,7 +97,28 @@ class _HomePageState extends State<HomePage> {
 
   Widget getMain() {
     return Scaffold(
-      backgroundColor: Color(0xff252E39), //Color(0xFF2C3F3F),
+      backgroundColor: Color(0xff252E39),
+      floatingActionButton: Align(
+          child: FloatingActionButton(
+            backgroundColor: Color(0xffF19920), //Colors.orange,
+            elevation: 1,
+            tooltip: 'Go Live',
+            onPressed: () {},
+            //  => Navigator.push(
+            //   context,
+            //   MaterialPageRoute(
+            //     builder: (_) => Google(),
+            //   ),
+            // ),
+            child: Icon(
+              Icons.wifi_tethering,
+              size: 30,
+              color: Colors.white,
+            ),
+          ),
+          alignment: Alignment(1, 0.99)),
+      //Color(0xFF2C3F3F),
+      //Color(0xFF2C3F3F),
       appBar: AppBar(
         backgroundColor: Color(0xff252E39), //Color(0xFF2C3F3F),
         elevation: 0,

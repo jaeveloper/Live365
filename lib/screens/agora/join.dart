@@ -4,7 +4,7 @@ import 'package:agora_rtc_engine/agora_rtc_engine.dart';
 import 'package:agorartm/firebaseDB/firestoreDB.dart';
 import 'package:agorartm/liveComments/message.dart';
 import 'package:agorartm/screens/HearAnim.dart';
-import 'package:agorartm/screens/Loading.dart';
+import 'package:agorartm/screens/loading.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
@@ -718,18 +718,13 @@ class _JoinPageState extends State<JoinPage> {
                     : Stack(
                         children: <Widget>[
                           _viewRows(),
-                          if (completed == false)
-                            _bottomBar(),
+                          if (completed == false) _bottomBar(),
                           _username(),
                           _liveText(),
-                          if (completed == false)
-                            _messageList(),
-                          if (heart == true && completed == false)
-                            heartPop(),
-                          if (requested == true)
-                            requestedWidget(),
-                          if (accepted == true)
-                            stopSharing(),
+                          if (completed == false) _messageList(),
+                          if (heart == true && completed == false) heartPop(),
+                          if (requested == true) requestedWidget(),
+                          if (accepted == true) stopSharing(),
 
                           //_ending()
                         ],

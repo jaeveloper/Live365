@@ -9,7 +9,7 @@ import 'package:path_provider/path_provider.dart';
 import 'dart:math';
 
 import 'package:agorartm/resources/repository.dart';
-import 'package:agorartm/ui/insta_home_screen.dart';
+import 'package:agorartm/screens/insta_home_screen.dart';
 
 class InstaUploadPhotoScreen extends StatefulWidget {
   File imageFile;

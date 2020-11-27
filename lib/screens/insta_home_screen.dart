@@ -1,14 +1,16 @@
+import 'package:agorartm/screens/insta_add_screen.dart';
+import 'package:agorartm/screens/insta_chat_screen.dart';
+import 'package:agorartm/utils/custom_tile.dart';
+import 'package:agorartm/utils/universal_variables.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'package:agorartm/screens/home.dart';
-import 'package:agorartm/ui/chat_screen.dart';
-import 'package:agorartm/ui/insta_activity_screen.dart';
-import 'package:agorartm/ui/insta_add_screen.dart';
-import 'package:agorartm/ui/insta_feed_screen.dart';
-import 'package:agorartm/ui/insta_profile_screen.dart';
-import 'package:agorartm/ui/insta_search_screen.dart';
+import 'package:agorartm/screens/my_add_screen.dart';
+import 'package:agorartm/screens/insta_feed_screen.dart';
+import 'package:agorartm/screens/insta_profile_screen.dart';
+import 'package:agorartm/screens/insta_search_screen.dart';
 
 class InstaHomeScreen extends StatefulWidget {
   @override
@@ -53,11 +55,11 @@ class _InstaHomeScreenState extends State<InstaHomeScreen> {
         children: [
           new Container(
             color: Color(0xff252E39), //Colors.white,
-            child: HomePage(), //InstaFeedScreen(),
+            child: InstaFeedScreen(), //InstaFeedScreen(),
           ),
           new Container(
             color: Color(0xff252E39), //Color(0xFF2C3F3F),
-            child: InstaSearchScreen(),
+            child: InstaAddScreen(), //addMediaModal(context),
           ),
           new Container(
             color: Color(0xff252E39), //Colors.white,
@@ -161,6 +163,103 @@ class _InstaHomeScreenState extends State<InstaHomeScreen> {
         ],
         onTap: navigationTapped,
         currentIndex: _page,
+      ),
+    );
+  }
+
+  addMediaModal(context) {
+    return showModalBottomSheet(
+        context: context,
+        elevation: 0,
+        backgroundColor: UniversalVariables.blackColor,
+        builder: (context) {
+          return Column(
+            children: [
+              Container(
+                padding: EdgeInsets.symmetric(vertical: 15),
+                child: Row(
+                  children: [
+                    FlatButton(
+                      child: Icon(Icons.close),
+                      onPressed: () => Navigator.maybePop(context),
+                    ),
+                    Expanded(
+                        child: Align(
+                      alignment: Alignment.centerLeft,
+                      child: Text(
+                        'content and tools',
+                        style: TextStyle(
+                          color: Colors.white,
+                          fontSize: 20,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                    )),
+                  ],
+                ),
+              ),
+              Flexible(
+                  child: ListView(
+                children: [
+                  ModalTile(
+                    title: 'Media',
+                    subTitle: 'Share Photos and Video',
+                    icon: Icons.image,
+                  ),
+                  ModalTile(
+                    title: 'File',
+                    subTitle: 'Share files',
+                    icon: Icons.tab,
+                  ),
+                  ModalTile(
+                    title: 'Contact',
+                    subTitle: 'Share contacts',
+                    icon: Icons.contacts,
+                  ),
+                ],
+              ))
+            ],
+          );
+        });
+  }
+}
+
+class ModalTile extends StatelessWidget {
+  final String title;
+  final String subTitle;
+  final IconData icon;
+
+  const ModalTile({
+    Key key,
+    this.title,
+    this.subTitle,
+    this.icon,
+  }) : super(key: key);
+  @override
+  Widget build(BuildContext context) {
+    return Padding(
+      padding: EdgeInsets.symmetric(horizontal: 15),
+      child: CustomTile(
+        mini: false,
+        leading: Container(
+          margin: EdgeInsets.only(right: 10),
+          decoration: BoxDecoration(color: UniversalVariables.receiverColor),
+          padding: EdgeInsets.all(10),
+          child: Icon(
+            icon,
+            color: UniversalVariables.greyColor,
+            size: 38,
+          ),
+        ),
+        subtitle: Text(
+          subTitle,
+          style: TextStyle(color: UniversalVariables.greyColor, fontSize: 14),
+        ),
+        title: Text(
+          title,
+          style: TextStyle(
+              fontWeight: FontWeight.bold, color: Colors.white, fontSize: 18),
+        ),
       ),
     );
   }

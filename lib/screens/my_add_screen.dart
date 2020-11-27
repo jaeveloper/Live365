@@ -9,14 +9,14 @@ import 'package:permission_handler/permission_handler.dart';
 import 'package:agorartm/models/user.dart';
 import 'package:agorartm/resources/repository.dart';
 import 'package:agorartm/screens/agora/host.dart';
-import 'package:agorartm/ui/insta_upload_photo_screen.dart';
+import 'package:agorartm/screens/insta_upload_photo_screen.dart';
 
-class InstaAddScreen extends StatefulWidget {
+class MyAddScreen extends StatefulWidget {
   @override
-  _InstaAddScreenState createState() => _InstaAddScreenState();
+  _MyAddScreenState createState() => _MyAddScreenState();
 }
 
-class _InstaAddScreenState extends State<InstaAddScreen> {
+class _MyAddScreenState extends State<MyAddScreen> {
   File imageFile;
   var _repository = Repository();
   User currentUser, user, followingUser;

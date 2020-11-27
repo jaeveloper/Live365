@@ -7,7 +7,7 @@ class LoadingPage extends StatelessWidget {
     return Scaffold(
       body: Container(
         height: MediaQuery.of(context).size.height,
-        color:  Colors.black,
+        color: Color(0xff252E39), //Colors.black,
         child: SafeArea(
           child: Container(
             height: MediaQuery.of(context).size.height,
@@ -20,11 +20,13 @@ class LoadingPage extends StatelessWidget {
                   backgroundColor: Colors.white,
                 ),
                 const SizedBox(height: 10.0),
-                Text('Loading',style: TextStyle(
-                  color: Colors.white,
-                  fontWeight: FontWeight.w400,
-                  fontSize: 18.0
-                ),)
+                Text(
+                  'Loading',
+                  style: TextStyle(
+                      color: Colors.white,
+                      fontWeight: FontWeight.w400,
+                      fontSize: 18.0),
+                )
               ],
             ),
           ),

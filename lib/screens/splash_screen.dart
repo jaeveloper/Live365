@@ -1,5 +1,9 @@
 import 'dart:async';
 
+import 'package:agorartm/resources/repository.dart';
+import 'package:agorartm/screens/google_signIn_screen.dart';
+import 'package:agorartm/screens/insta_home_screen.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:gradient_text/gradient_text.dart';
 
@@ -9,7 +13,9 @@ class SplashScreen extends StatefulWidget {
 }
 
 class _SplashScreenState extends State<SplashScreen> {
+  Repository _repository = Repository();
   var image = Image.asset('assets/images/agoraLogo.png');
+
   @override
   void initState() {
     super.initState();
@@ -23,12 +29,44 @@ class _SplashScreenState extends State<SplashScreen> {
   }
 
   startTime() async {
-    var _duration = new Duration(seconds: 4);
+    var _duration = new Duration(seconds: 2);
     return new Timer(_duration, navigationPage);
   }
 
   void navigationPage() {
-    Navigator.of(context).pushReplacementNamed('/HomeScreen');
+    // Navigator.pushReplacement(
+    //   context,
+    //   MaterialPageRoute(
+    //     builder: (context) {
+    //       return LoginScreen();
+    //     },
+    //   ),
+    // );
+
+    FutureBuilder(
+      future: _repository.getCurrentUser(),
+      builder: (_, AsyncSnapshot<FirebaseUser> snapshot) {
+        if (snapshot.hasData) {
+          Navigator.pushReplacement(
+            context,
+            MaterialPageRoute(
+              builder: (context) {
+                return InstaHomeScreen();
+              },
+            ),
+          );
+        } else {
+          Navigator.pushReplacement(
+            context,
+            MaterialPageRoute(
+              builder: (context) {
+                return LoginScreen();
+              },
+            ),
+          );
+        }
+      },
+    );
   }
 
   @override
