@@ -79,21 +79,21 @@ class _InstaFriendProfileScreenState extends State<InstaFriendProfileScreen> {
 
   followUser() {
     print('following user');
-    _repository.followUser(
-        currentUserId: currentUserId, followingUserId: followingUserId);
     setState(() {
       isFollowing = true;
       followButtonClicked = true;
     });
+    _repository.followUser(
+        currentUserId: currentUserId, followingUserId: followingUserId);
   }
 
   unfollowUser() {
-    _repository.unFollowUser(
-        currentUserId: currentUserId, followingUserId: followingUserId);
     setState(() {
       isFollowing = false;
       followButtonClicked = true;
     });
+    _repository.unFollowUser(
+        currentUserId: currentUserId, followingUserId: followingUserId);
   }
 
   Widget buildButton(
@@ -134,9 +134,9 @@ class _InstaFriendProfileScreenState extends State<InstaFriendProfileScreen> {
     if (!isFollowing) {
       return buildButton(
         text: "Follow",
-        backgroundcolor: Colors.blue,
+        backgroundcolor: Colors.orange,
         textColor: Colors.white,
-        borderColor: Colors.blue,
+        borderColor: Colors.orange,
         function: followUser,
       );
     }
@@ -345,7 +345,71 @@ class _InstaFriendProfileScreenState extends State<InstaFriendProfileScreen> {
                   ),
                 ],
               )
-            : Center(child: CircularProgressIndicator()),
+            : ListView(
+                physics: NeverScrollableScrollPhysics(),
+                children: <Widget>[
+                  Column(
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    children: <Widget>[
+                      Container(
+                        alignment: Alignment.center,
+                        //padding: const EdgeInsets.only(left: 25.0, top: 30.0),
+                        child: Text('',
+                            style: TextStyle(
+                                color: Colors.white,
+                                fontWeight: FontWeight.bold,
+                                fontSize: 20.0)),
+                      ),
+                      Padding(
+                        padding: const EdgeInsets.only(top: 20.0, bottom: 20.0),
+                        child: Container(
+                            width: 110.0,
+                            height: 110.0,
+                            decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(80.0),
+                                color: Colors.grey)),
+                      ),
+                      Container(
+                        alignment: Alignment.center,
+                        //padding: const EdgeInsets.only(left: 25.0, top: 30.0),
+                        child: Text('',
+                            style: TextStyle(
+                                color: Colors.white,
+                                fontWeight: FontWeight.bold,
+                                fontSize: 20.0)),
+                      ),
+                      Container(
+                        alignment: Alignment.center,
+                      ),
+                      Padding(
+                        padding: const EdgeInsets.only(top: 20.0),
+                        child: Column(
+                          children: <Widget>[
+                            Container(
+                              width: MediaQuery.of(context).size.width / 1.15,
+                              height: 80,
+                              alignment: Alignment.center,
+                              decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(10),
+                                color: Colors.white,
+                              ),
+                            ),
+                          ],
+                        ),
+                      )
+                    ],
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.only(top: 0),
+                    child: Divider(),
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.only(
+                      left: 20.0,
+                    ),
+                  ),
+                ],
+              ),
       ),
     );
   }
@@ -448,7 +512,7 @@ class _InstaFriendProfileScreenState extends State<InstaFriendProfileScreen> {
         Padding(
           padding: const EdgeInsets.only(top: 4.0),
           child: Text((label).toUpperCase(),
-              style: TextStyle(fontSize: 16.0, color: Colors.grey)),
+              style: TextStyle(fontSize: 12.0, color: Colors.grey)),
         ),
         Text(count,
             style: TextStyle(

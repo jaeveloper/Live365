@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>CLIENT_ID</key>
+	<string>822913770646-c5t5hesqctf8vd69cnta2dvp52dc5ktm.apps.googleusercontent.com</string>
+	<key>REVERSED_CLIENT_ID</key>
+	<string>com.googleusercontent.apps.822913770646-c5t5hesqctf8vd69cnta2dvp52dc5ktm</string>
+	<key>ANDROID_CLIENT_ID</key>
+	<string>822913770646-uu96dab57nr4c45j0vr0ohdho3i0vi66.apps.googleusercontent.com</string>
+	<key>API_KEY</key>
+	<string>AIzaSyAjh-dQDz8x_aP4DGDTe79d7DEwbGm_jAs</string>
+	<key>GCM_SENDER_ID</key>
+	<string>822913770646</string>
+	<key>PLIST_VERSION</key>
+	<string>1</string>
+	<key>BUNDLE_ID</key>
+	<string>com.davish.agorartm</string>
+	<key>PROJECT_ID</key>
+	<string>live365-1e184</string>
+	<key>STORAGE_BUCKET</key>
+	<string>live365-1e184.appspot.com</string>
+	<key>IS_ADS_ENABLED</key>
+	<false></false>
+	<key>IS_ANALYTICS_ENABLED</key>
+	<false></false>
+	<key>IS_APPINVITE_ENABLED</key>
+	<true></true>
+	<key>IS_GCM_ENABLED</key>
+	<true></true>
+	<key>IS_SIGNIN_ENABLED</key>
+	<true></true>
+	<key>GOOGLE_APP_ID</key>
+	<string>1:822913770646:ios:4dfffc9e8ffa2241f38eb7</string>
+	<key>DATABASE_URL</key>
+	<string>https://live365-1e184.firebaseio.com</string>
+</dict>
+</plist>

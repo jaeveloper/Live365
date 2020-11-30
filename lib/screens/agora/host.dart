@@ -792,24 +792,15 @@ class _CallPageState extends State<CallPage> {
                 child: Stack(
                   children: <Widget>[
                     _viewRows(), // Video Widget
-                    if (tryingToEnd == false)
-                      _endCall(),
-                    if (tryingToEnd == false)
-                      _liveText(),
-                    if (heart == true && tryingToEnd == false)
-                      heartPop(),
-                    if (tryingToEnd == false)
-                      _bottomBar(), // send message
-                    if (tryingToEnd == false)
-                      messageList(),
-                    if (tryingToEnd == true)
-                      endLive(), // view message
-                    if (personBool == true && waiting == false)
-                      personList(),
-                    if (accepted == true)
-                      stopSharing(),
-                    if (waiting == true)
-                      guestWaiting(),
+                    if (tryingToEnd == false) _endCall(),
+                    if (tryingToEnd == false) _liveText(),
+                    if (heart == true && tryingToEnd == false) heartPop(),
+                    if (tryingToEnd == false) _bottomBar(), // send message
+                    if (tryingToEnd == false) messageList(),
+                    if (tryingToEnd == true) endLive(), // view message
+                    if (personBool == true && waiting == false) personList(),
+                    if (accepted == true) stopSharing(),
+                    if (waiting == true) guestWaiting(),
                   ],
                 ),
               ),
@@ -1046,7 +1037,7 @@ class _CallPageState extends State<CallPage> {
       setState(() {
         waiting = false;
       });
-      FlutterToast.showToast(
+      Fluttertoast.showToast(
           msg: "Guest Declined",
           toastLength: Toast.LENGTH_LONG,
           gravity: ToastGravity.TOP,

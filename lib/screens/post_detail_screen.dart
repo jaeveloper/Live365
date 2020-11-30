@@ -25,16 +25,16 @@ class _PostDetailScreenState extends State<PostDetailScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        backgroundColor: Color(0xFF2C3F3F),
+        backgroundColor: Color(0xff252E39), //Color(0xFF2C3F3F),
         appBar: AppBar(
           elevation: 0,
-          backgroundColor: new Color(0xFF2C3F3F),
+          backgroundColor: Color(0xff252E39), //Color(0xFF2C3F3F),
           title: Container(
               alignment: Alignment.center,
-              padding: EdgeInsets.only(right: 30),
+              padding: EdgeInsets.only(right: 50),
               child: Text(
                 'Photo',
-                style: TextStyle(color: Colors.white60),
+                style: TextStyle(color: Colors.white70),
               )),
         ),
         body: Column(
@@ -129,10 +129,12 @@ class _PostDetailScreenState extends State<PostDetailScreen> {
                                     ? Icon(
                                         Icons.favorite,
                                         color: Colors.red,
+                                        size: 29,
                                       )
                                     : Icon(
-                                        FontAwesomeIcons.heart,
+                                        Icons.favorite,
                                         color: Colors.white,
+                                        size: 29,
                                       ),
                                 onTap: () {
                                   if (!_isLiked) {
@@ -190,6 +192,11 @@ class _PostDetailScreenState extends State<PostDetailScreen> {
                               width: 16.0,
                             ),
                             GestureDetector(
+                              child: Container(
+                                height: MediaQuery.of(context).size.height / 30,
+                                child: Image.asset(
+                                    'assets/Navigation Icons/comment.png'),
+                              ),
                               onTap: () {
                                 Navigator.push(
                                     context,
@@ -200,10 +207,6 @@ class _PostDetailScreenState extends State<PostDetailScreen> {
                                               user: widget.currentuser,
                                             ))));
                               },
-                              child: new Icon(
-                                FontAwesomeIcons.comment,
-                                color: Colors.white,
-                              ),
                             ),
                             SizedBox(
                               width: 10.0,

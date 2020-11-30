@@ -25,10 +25,10 @@ class _CommentsScreenState extends State<CommentsScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Color(0xFF2C3F3F),
+      backgroundColor: Color(0xff252E39), //Color(0xFF2C3F3F),
       appBar: AppBar(
         elevation: 0,
-        backgroundColor: Color(0xFF2C3F3F),
+        backgroundColor: Color(0xff252E39), //Color(0xFF2C3F3F),
         title: Container(
           alignment: Alignment.center,
           padding: EdgeInsets.only(right: 30),
@@ -177,11 +177,13 @@ class _CommentsScreenState extends State<CommentsScreen> {
             children: <Widget>[
               Text(snapshot.data['ownerName'],
                   style: TextStyle(
-                    fontWeight: FontWeight.bold,
-                  )),
+                      fontWeight: FontWeight.w700,
+                      color: Colors.white,
+                      fontSize: 16)),
               Padding(
-                padding: const EdgeInsets.only(left: 8.0),
-                child: Text(snapshot.data['comment']),
+                padding: const EdgeInsets.only(left: 10.0, bottom: 2),
+                child: Text(snapshot.data['comment'],
+                    style: TextStyle(color: Colors.white70)),
               ),
             ],
           )

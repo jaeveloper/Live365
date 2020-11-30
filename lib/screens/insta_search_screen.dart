@@ -69,16 +69,21 @@ class _InstaSearchScreenState extends State<InstaSearchScreen> {
               style: TextStyle(color: Colors.white70),
             )),
         actions: <Widget>[
-          IconButton(
-            icon: Icon(
-              Icons.search,
-              color: Colors.white70,
+          Container(
+            alignment: Alignment.topLeft,
+            padding: EdgeInsets.only(top: 12, right: 10),
+            child: GestureDetector(
+              child: Container(
+                height: MediaQuery.of(context).size.height / 20,
+                child: Image.asset('assets/Navigation Icons/icon2.png'),
+              ),
+              onTap: () {
+                showSearch(
+                    context: context,
+                    delegate: DataSearch(userList: usersList));
+              },
             ),
-            onPressed: () {
-              showSearch(
-                  context: context, delegate: DataSearch(userList: usersList));
-            },
-          )
+          ),
         ],
       ),
       body: GridView.builder(

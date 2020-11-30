@@ -50,10 +50,10 @@ class _InstaUploadPhotoScreenState extends State<InstaUploadPhotoScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Color(0xFF2C3F3F),
+      backgroundColor: Color(0xff252E39), //Color(0xFF2C3F3F),
       appBar: AppBar(
         title: Center(child: Text('New Post')),
-        backgroundColor: Color(0xFF2C3F3F),
+        backgroundColor: Color(0xff252E39), //Color(0xFF2C3F3F),
         elevation: 0,
         actions: <Widget>[
           Padding(
@@ -77,10 +77,7 @@ class _InstaUploadPhotoScreenState extends State<InstaUploadPhotoScreen> {
                                 _locationController.text)
                             .then((value) {
                           print("Post added to db");
-                          Navigator.pushReplacement(
-                              context,
-                              MaterialPageRoute(
-                                  builder: ((context) => InstaHomeScreen())));
+                          Navigator.pop(context);
                         }).catchError((e) =>
                                 print("Error adding current post to db : $e"));
                       }).catchError((e) {
@@ -132,67 +129,6 @@ class _InstaUploadPhotoScreenState extends State<InstaUploadPhotoScreen> {
             ],
           ),
           Padding(
-            padding: const EdgeInsets.all(20.0),
-            child: TextField(
-              controller: _locationController,
-              onChanged: ((value) {
-                setState(() {
-                  _locationController.text = value;
-                });
-              }),
-              decoration: InputDecoration(
-                hintText: 'Add location',
-              ),
-            ),
-          ),
-          Padding(
-            padding: const EdgeInsets.only(left: 12.0),
-            child: FutureBuilder(
-                future: locateUser(),
-                builder: ((context, AsyncSnapshot<List<Address>> snapshot) {
-                  //  if (snapshot.hasData) {
-                  if (snapshot.hasData) {
-                    return Row(
-                      // alignment: WrapAlignment.start,
-                      children: <Widget>[
-                        GestureDetector(
-                          child: Chip(
-                            label: Text(snapshot.data.first.locality),
-                          ),
-                          onTap: () {
-                            setState(() {
-                              _locationController.text =
-                                  snapshot.data.first.locality;
-                            });
-                          },
-                        ),
-                        Padding(
-                          padding: const EdgeInsets.only(left: 12.0),
-                          child: GestureDetector(
-                            child: Chip(
-                              label: Text(snapshot.data.first.subAdminArea +
-                                  ", " +
-                                  snapshot.data.first.subLocality),
-                            ),
-                            onTap: () {
-                              setState(() {
-                                _locationController.text =
-                                    snapshot.data.first.subAdminArea +
-                                        ", " +
-                                        snapshot.data.first.subLocality;
-                              });
-                            },
-                          ),
-                        ),
-                      ],
-                    );
-                  } else {
-                    print("Connection State : ${snapshot.connectionState}");
-                    return CircularProgressIndicator();
-                  }
-                })),
-          ),
-          Padding(
             padding: const EdgeInsets.only(top: 50.0),
             child: Offstage(
               child: CircularProgressIndicator(),
@@ -220,33 +156,5 @@ class _InstaUploadPhotoScreenState extends State<InstaUploadPhotoScreen> {
       widget.imageFile = newim2;
     });
     print('done');
-  }
-
-  Future<List<Address>> locateUser() async {
-    LocationData currentLocation;
-    Future<List<Address>> addresses;
-
-    var location = new Location();
-
-    // Platform messages may fail, so we use a try/catch PlatformException.
-    try {
-      currentLocation = await location.getLocation();
-
-      print(
-          'LATITUDE : ${currentLocation.latitude} && LONGITUDE : ${currentLocation.longitude}');
-
-      // From coordinates
-      final coordinates =
-          new Coordinates(currentLocation.latitude, currentLocation.longitude);
-
-      addresses = Geocoder.local.findAddressesFromCoordinates(coordinates);
-    } on PlatformException catch (e) {
-      print('ERROR : $e');
-      if (e.code == 'PERMISSION_DENIED') {
-        print('Permission denied');
-      }
-      currentLocation = null;
-    }
-    return addresses;
   }
 }

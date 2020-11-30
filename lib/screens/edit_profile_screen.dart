@@ -161,44 +161,6 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                   }),
                 ),
               ),
-              Divider(),
-              Padding(
-                padding: const EdgeInsets.only(left: 15.0),
-                child: Text(
-                  'Private Information',
-                  style: TextStyle(
-                      color: Colors.black,
-                      fontSize: 18.0,
-                      fontWeight: FontWeight.bold),
-                ),
-              ),
-              Padding(
-                padding:
-                    const EdgeInsets.symmetric(horizontal: 15.0, vertical: 8.0),
-                child: TextField(
-                  controller: _emailController,
-                  decoration: InputDecoration(
-                      hintText: 'Email address', labelText: 'Email address'),
-                  onChanged: ((value) {
-                    setState(() {
-                      _emailController.text = value;
-                    });
-                  }),
-                ),
-              ),
-              Padding(
-                padding:
-                    const EdgeInsets.symmetric(horizontal: 15.0, vertical: 8.0),
-                child: TextField(
-                  decoration: InputDecoration(
-                      hintText: 'Phone Number', labelText: 'Phone Number'),
-                  onChanged: ((value) {
-                    setState(() {
-                      _phoneController.text = value;
-                    });
-                  }),
-                ),
-              )
             ],
           )
         ],

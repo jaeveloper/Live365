@@ -70,14 +70,15 @@ class _InstaProfileScreenState extends State<InstaProfileScreen> {
                         children: <Widget>[
                           Container(
                             alignment: Alignment.topCenter,
-                            padding: EdgeInsets.only(top: 10),
-                            child: IconButton(
-                                icon: Icon(
-                                  Icons.settings,
-                                  color: Colors.orange,
+                            padding: EdgeInsets.only(top: 20, left: 10),
+                            child: GestureDetector(
+                                child: Container(
+                                  height:
+                                      MediaQuery.of(context).size.height / 20,
+                                  child: Image.asset(
+                                      'assets/Navigation Icons/sett.png'),
                                 ),
-                                color: Colors.black,
-                                onPressed: () {
+                                onTap: () {
                                   Navigator.push(
                                       context,
                                       MaterialPageRoute(
@@ -90,49 +91,45 @@ class _InstaProfileScreenState extends State<InstaProfileScreen> {
                                                   phone: _user.phone))));
                                 }),
                           ),
-                          Container(
-                            alignment: Alignment.bottomCenter,
-                            padding: const EdgeInsets.only(top: 23.0),
-                            child: Text(_user.displayName,
-                                style: TextStyle(
-                                    color: Colors.white,
-                                    fontWeight: FontWeight.w300,
-                                    fontSize: 18.0)),
+                          Padding(
+                            padding:
+                                const EdgeInsets.only(top: 20.0, bottom: 20.0),
+                            child: Container(
+                                width: 100.0,
+                                height: 100.0,
+                                decoration: BoxDecoration(
+                                  borderRadius: BorderRadius.circular(80.0),
+                                  image: DecorationImage(
+                                      image: _user.photoUrl.isEmpty
+                                          ? AssetImage('assets/no_image.png')
+                                          : NetworkImage(_user.photoUrl),
+                                      fit: BoxFit.cover),
+                                )),
                           ),
                           Container(
                             alignment: Alignment.topLeft,
-                            padding: EdgeInsets.only(top: 10),
-                            child: IconButton(
-                              icon: Icon(
-                                Icons.settings_power,
-                                color: Colors.orange,
+                            padding: EdgeInsets.only(top: 20, right: 10),
+                            child: GestureDetector(
+                              child: Stack(
+                                alignment: Alignment(0.1, 0.1),
+                                children: [
+                                  Container(
+                                    height:
+                                        MediaQuery.of(context).size.height / 20,
+                                    child: Image.asset(
+                                        'assets/Navigation Icons/rect.png'),
+                                  ),
+                                  Icon(
+                                    Icons.logout,
+                                    color: Colors.white,
+                                    size: 18,
+                                  )
+                                ],
                               ),
-                              color: Colors.black,
-                              onPressed: () {
-                                _repository.signOut().then((v) {
-                                  Navigator.pushReplacement(context,
-                                      MaterialPageRoute(builder: (context) {
-                                    return MyApp();
-                                  }));
-                                });
-                              },
+                              onTap: _showDialog,
                             ),
                           ),
                         ],
-                      ),
-                      Padding(
-                        padding: const EdgeInsets.only(top: 20.0, bottom: 20.0),
-                        child: Container(
-                            width: 110.0,
-                            height: 110.0,
-                            decoration: BoxDecoration(
-                              borderRadius: BorderRadius.circular(80.0),
-                              image: DecorationImage(
-                                  image: _user.photoUrl.isEmpty
-                                      ? AssetImage('assets/no_image.png')
-                                      : NetworkImage(_user.photoUrl),
-                                  fit: BoxFit.cover),
-                            )),
                       ),
                       Container(
                         alignment: Alignment.center,
@@ -142,6 +139,15 @@ class _InstaProfileScreenState extends State<InstaProfileScreen> {
                                 color: Colors.white,
                                 fontWeight: FontWeight.bold,
                                 fontSize: 20.0)),
+                      ),
+                      Container(
+                        alignment: Alignment.bottomCenter,
+                        padding: const EdgeInsets.only(top: 5.0),
+                        child: Text(_user.displayName,
+                            style: TextStyle(
+                                color: Colors.white,
+                                fontWeight: FontWeight.w300,
+                                fontSize: 18.0)),
                       ),
                       Container(
                         alignment: Alignment.center,
@@ -158,7 +164,7 @@ class _InstaProfileScreenState extends State<InstaProfileScreen> {
                         child: Column(
                           children: <Widget>[
                             Container(
-                              width: MediaQuery.of(context).size.width / 1.15,
+                              width: MediaQuery.of(context).size.width / 1.11,
                               height: 80,
                               alignment: Alignment.center,
                               decoration: BoxDecoration(
@@ -277,41 +283,6 @@ class _InstaProfileScreenState extends State<InstaProfileScreen> {
                       )
                     ],
                   ),
-
-                  // Padding(
-                  //   padding: const EdgeInsets.only(top: 8.0),
-                  //   child: Row(
-                  //     mainAxisAlignment: MainAxisAlignment.spaceAround,
-                  //     children: <Widget>[
-                  //       GestureDetector(
-                  //         child: Icon(
-                  //           Icons.grid_on,
-                  //           color: _gridColor,
-                  //         ),
-                  //         onTap: () {
-                  //           setState(() {
-                  //             _isGridActive = true;
-                  //             _gridColor = Colors.blue;
-                  //             _listColor = Colors.grey;
-                  //           });
-                  //         },
-                  //       ),
-                  //       GestureDetector(
-                  //         child: Icon(
-                  //           Icons.stay_current_portrait,
-                  //           color: _listColor,
-                  //         ),
-                  //         onTap: () {
-                  //           setState(() {
-                  //             _isGridActive = false;
-                  //             _listColor = Colors.blue;
-                  //             _gridColor = Colors.grey;
-                  //           });
-                  //         },
-                  //       )
-                  //     ],
-                  //   ),
-                  // ),
                   Padding(
                     padding: const EdgeInsets.only(top: 0),
                     child: Divider(),
@@ -336,55 +307,66 @@ class _InstaProfileScreenState extends State<InstaProfileScreen> {
                         children: <Widget>[
                           Container(
                             alignment: Alignment.topCenter,
-                            padding: EdgeInsets.only(top: 10),
-                            child: IconButton(
-                                icon: Icon(
-                                  Icons.settings,
-                                  color: Colors.orange,
+                            padding: EdgeInsets.only(top: 20, left: 10),
+                            child: GestureDetector(
+                                child: Container(
+                                  height:
+                                      MediaQuery.of(context).size.height / 20,
+                                  child: Image.asset(
+                                      'assets/Navigation Icons/sett.png'),
                                 ),
-                                color: Colors.black,
-                                onPressed: () {}),
+                                onTap: () {
+                                  Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                          builder: ((context) =>
+                                              EditProfileScreen(
+                                                  photoUrl: _user.photoUrl,
+                                                  email: _user.email,
+                                                  bio: _user.bio,
+                                                  name: _user.displayName,
+                                                  phone: _user.phone))));
+                                }),
                           ),
-                          Container(
-                            alignment: Alignment.bottomCenter,
-                            padding: const EdgeInsets.only(top: 23.0),
-                            child: Text('',
-                                style: TextStyle(
-                                    color: Colors.white,
-                                    fontWeight: FontWeight.w300,
-                                    fontSize: 18.0)),
+                          Padding(
+                            padding:
+                                const EdgeInsets.only(top: 20.0, bottom: 20.0),
+                            child: Container(
+                                width: 110.0,
+                                height: 110.0,
+                                decoration: BoxDecoration(
+                                    borderRadius: BorderRadius.circular(80.0),
+                                    color: Colors.grey)),
                           ),
                           Container(
                             alignment: Alignment.topLeft,
-                            padding: EdgeInsets.only(top: 10),
-                            child: IconButton(
-                              icon: Icon(
-                                Icons.settings_power,
-                                color: Colors.orange,
+                            padding: EdgeInsets.only(top: 20, right: 10),
+                            child: GestureDetector(
+                              child: Container(
+                                height: MediaQuery.of(context).size.height / 20,
+                                child: Image.asset(
+                                    'assets/Navigation Icons/rect.png'),
                               ),
-                              color: Colors.black,
-                              onPressed: () {},
+                              onTap: () {
+                                _repository.signOut().then((v) {
+                                  Navigator.pushReplacement(context,
+                                      MaterialPageRoute(builder: (context) {
+                                    return MyApp();
+                                  }));
+                                });
+                              },
                             ),
                           ),
                         ],
                       ),
-                      Padding(
-                        padding: const EdgeInsets.only(top: 20.0, bottom: 20.0),
-                        child: Container(
-                            width: 110.0,
-                            height: 110.0,
-                            decoration: BoxDecoration(
-                                borderRadius: BorderRadius.circular(80.0),
-                                color: Colors.grey)),
-                      ),
                       Container(
-                        alignment: Alignment.center,
-                        //padding: const EdgeInsets.only(left: 25.0, top: 30.0),
+                        alignment: Alignment.bottomCenter,
+                        padding: const EdgeInsets.only(top: 23.0),
                         child: Text('',
                             style: TextStyle(
                                 color: Colors.white,
-                                fontWeight: FontWeight.bold,
-                                fontSize: 20.0)),
+                                fontWeight: FontWeight.w300,
+                                fontSize: 18.0)),
                       ),
                       Container(
                         alignment: Alignment.center,
@@ -394,7 +376,7 @@ class _InstaProfileScreenState extends State<InstaProfileScreen> {
                         child: Column(
                           children: <Widget>[
                             Container(
-                              width: MediaQuery.of(context).size.width / 1.15,
+                              width: MediaQuery.of(context).size.width / 1.11,
                               height: 80,
                               alignment: Alignment.center,
                               decoration: BoxDecoration(
@@ -422,6 +404,35 @@ class _InstaProfileScreenState extends State<InstaProfileScreen> {
     );
   }
 
+  _showDialog() {
+    return showDialog(
+        context: context,
+        barrierDismissible: false,
+        builder: ((context) {
+          return SimpleDialog(
+            children: <Widget>[
+              SimpleDialogOption(
+                child: Text('Logout'),
+                onPressed: () {
+                  _repository.signOut().then((v) {
+                    Navigator.pushReplacement(context,
+                        MaterialPageRoute(builder: (context) {
+                      return MyApp();
+                    }));
+                  });
+                },
+              ),
+              SimpleDialogOption(
+                child: Text('Cancel'),
+                onPressed: () {
+                  Navigator.pop(context);
+                },
+              )
+            ],
+          );
+        }));
+  }
+
   Widget postImagesWidget() {
     return FutureBuilder(
       future: _future,
@@ -446,8 +457,16 @@ class _InstaProfileScreenState extends State<InstaProfileScreen> {
                         borderRadius: BorderRadius.circular(10),
                         child: CachedNetworkImage(
                           imageUrl: snapshot.data[index].data['imgUrl'],
-                          placeholder: ((context, s) => Center(
-                                child: CircularProgressIndicator(),
+                          placeholder: ((context, s) => Container(
+                                color: Colors.grey,
+                                padding: const EdgeInsets.only(right: 20.0),
+                                child: Center(
+                                  child: GestureDetector(
+                                    child: ClipRRect(
+                                      borderRadius: BorderRadius.circular(10),
+                                    ),
+                                  ),
+                                ),
                               )),
                           width: 200.0,
                           height: 200.0,
@@ -489,7 +508,7 @@ class _InstaProfileScreenState extends State<InstaProfileScreen> {
         Padding(
           padding: const EdgeInsets.only(top: 4.0),
           child: Text((label).toUpperCase(),
-              style: TextStyle(fontSize: 14.0, color: Colors.grey)),
+              style: TextStyle(fontSize: 12.0, color: Colors.grey)),
         ),
         Text(count,
             style: TextStyle(

@@ -24,11 +24,10 @@ class MyApp extends StatelessWidget {
         theme: new ThemeData(
             primarySwatch: Colors.blue,
             primaryColor: Color(0xff252E39),
-            primaryIconTheme:
-                IconThemeData(color: Color(0xff252E39)), //Colors.white70),
+            primaryIconTheme: IconThemeData(color: Colors.white70),
             primaryTextTheme: TextTheme(
-                title: TextStyle(color: Colors.black54, fontFamily: "Aveny")),
-            textTheme: TextTheme(title: TextStyle(color: Colors.black54))),
+                title: TextStyle(color: Colors.white, fontFamily: "Aveny")),
+            textTheme: TextTheme(title: TextStyle(color: Colors.white))),
         home: FutureBuilder(
           future: _repository.getCurrentUser(),
           builder: (context, AsyncSnapshot<FirebaseUser> snapshot) {
