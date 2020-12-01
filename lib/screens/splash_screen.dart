@@ -29,7 +29,7 @@ class _SplashScreenState extends State<SplashScreen> {
   }
 
   startTime() async {
-    var _duration = new Duration(seconds: 2);
+    var _duration = new Duration(seconds: 1);
     return new Timer(_duration, navigationPage);
   }
 
@@ -43,30 +43,7 @@ class _SplashScreenState extends State<SplashScreen> {
     //   ),
     // );
 
-    FutureBuilder(
-      future: _repository.getCurrentUser(),
-      builder: (_, AsyncSnapshot<FirebaseUser> snapshot) {
-        if (snapshot.hasData) {
-          Navigator.pushReplacement(
-            context,
-            MaterialPageRoute(
-              builder: (context) {
-                return InstaHomeScreen();
-              },
-            ),
-          );
-        } else {
-          Navigator.pushReplacement(
-            context,
-            MaterialPageRoute(
-              builder: (context) {
-                return LoginScreen();
-              },
-            ),
-          );
-        }
-      },
-    );
+    Navigator.of(context).pushReplacementNamed('/HomeScreen');
   }
 
   @override

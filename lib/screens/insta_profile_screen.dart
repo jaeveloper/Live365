@@ -59,7 +59,7 @@ class _InstaProfileScreenState extends State<InstaProfileScreen> {
         backgroundColor: Color(0xff252E39),
         body: _user != null
             ? ListView(
-                physics: NeverScrollableScrollPhysics(),
+                physics: BouncingScrollPhysics(),
                 children: <Widget>[
                   Column(
                     mainAxisAlignment: MainAxisAlignment.start,

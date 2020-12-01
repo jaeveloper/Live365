@@ -20,10 +20,14 @@ class _LikesScreenState extends State<LikesScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Color(0xff252E39),
       appBar: AppBar(
         elevation: 1,
-        backgroundColor: new Color(0xfff8faf8),
-        title: Text('Likes'),
+        backgroundColor: Color(0xff252E39), //Color(0xfff8faf8),
+        title: Container(
+            padding: EdgeInsets.only(right: 50),
+            alignment: Alignment.center,
+            child: Text('Likes')),
       ),
       body: FutureBuilder(
         future: _repository.fetchPostLikes(widget.documentReference),
@@ -56,7 +60,7 @@ class _LikesScreenState extends State<LikesScreen> {
                       child: Text(
                         snapshot.data[index].data['ownerName'],
                         style: TextStyle(
-                            color: Colors.black,
+                            color: Colors.white,
                             fontWeight: FontWeight.bold,
                             fontSize: 16.0),
                       ),

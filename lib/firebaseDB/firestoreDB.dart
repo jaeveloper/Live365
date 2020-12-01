@@ -4,7 +4,6 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'dart:async';
 
-
 class FireStoreClass {
   static final Firestore _db = Firestore.instance;
   static final liveCollection = 'liveuser';
@@ -25,9 +24,15 @@ class FireStoreClass {
   }
 
   static Future<String> getImage({username}) async {
-    final snapShot =
-        await _db.collection(userCollection).document(username).get();
-    return snapShot.data['image'];
+    final snapShot = await _db
+        .collection(userCollection)
+        .document(username)
+        .get()
+        .then((DocumentSnapshot ds) {
+      var photo = ds.data['photoUrl'];
+      return photo;
+    });
+    return snapShot;
   }
 
   static Future<String> getName({username}) async {

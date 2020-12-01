@@ -52,7 +52,7 @@ class _InstaFeedScreenState extends State<InstaFeedScreen> {
     fetchFeed();
     loadUserDetails();
     list = [];
-    liveUser = new Live(username: username, me: false, image: image);
+    liveUser = new Live(username: username, me: true, image: image);
     setState(() {
       list.add(liveUser);
     });
@@ -81,7 +81,7 @@ class _InstaFeedScreenState extends State<InstaFeedScreen> {
       if (mounted) {
         setState(() {
           list = [];
-          liveUser = new Live(username: username, me: false, image: image);
+          liveUser = new Live(username: username, me: true, image: image);
           list.add(liveUser);
         });
       }
@@ -190,20 +190,24 @@ class _InstaFeedScreenState extends State<InstaFeedScreen> {
         ),
       ),
       body: currentUser != null
-          ? Column(
+          ? ListView(
+              physics: BouncingScrollPhysics(),
               children: <Widget>[
-                Container(
-                  height: 100,
-                  child: getStories(),
-                ),
-                Divider(
-                  thickness: 1,
-                ),
-                Expanded(
-                  child: Padding(
-                    padding: const EdgeInsets.only(top: 0),
-                    child: postImagesWidget(),
-                  ),
+                Column(
+                  children: [
+                    Container(
+                      height: 102,
+                      child: getStories(),
+                    ),
+                    Divider(
+                      thickness: 0.2,
+                      color: Colors.white70,
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.only(top: 0),
+                      child: postImagesWidget(),
+                    ),
+                  ],
                 ),
               ],
             )
@@ -507,7 +511,8 @@ class _InstaFeedScreenState extends State<InstaFeedScreen> {
   }
 
   Widget getStories() {
-    return ListView(scrollDirection: Axis.vertical, children: getUserStories());
+    return ListView(
+        scrollDirection: Axis.horizontal, children: getUserStories());
   }
 
   List<Widget> getUserStories() {
@@ -564,45 +569,31 @@ class _InstaFeedScreenState extends State<InstaFeedScreen> {
                         : SizedBox(
                             height: 0,
                           ),
-                    Container(
-                      height: 55.5,
-                      width: 55.5,
-                      child: CircleAvatar(
-                        backgroundColor: Colors.black,
-                      ),
-                    ),
-                    CachedNetworkImage(
-                      imageUrl: users.image,
-                      imageBuilder: (context, imageProvider) => Container(
-                        width: 52.0,
-                        height: 52.0,
-                        decoration: BoxDecoration(
-                          shape: BoxShape.circle,
-                          image: DecorationImage(
-                              image: imageProvider, fit: BoxFit.cover),
-                        ),
-                      ),
-                    ),
-                    users.me
+                    !users.me
                         ? Container(
-                            height: 55,
-                            width: 55,
-                            alignment: Alignment.bottomRight,
-                            child: Container(
-                              decoration: new BoxDecoration(
-                                color: Colors.blue,
+                            height: 55.5,
+                            width: 55.5,
+                            child: CircleAvatar(
+                              backgroundColor: Colors.black,
+                            ),
+                          )
+                        : Container(),
+                    !users.me
+                        ? CachedNetworkImage(
+                            imageUrl: users.image,
+                            imageBuilder: (context, imageProvider) => Container(
+                              width: 52.0,
+                              height: 52.0,
+                              decoration: BoxDecoration(
                                 shape: BoxShape.circle,
-                                border: Border.all(
-                                  color: Colors.black,
-                                  width: 1,
-                                ),
+                                image: DecorationImage(
+                                    image: imageProvider, fit: BoxFit.cover),
                               ),
-                              child: Icon(
-                                Icons.add,
-                                size: 13.5,
-                                color: Colors.white,
-                              ),
-                            ))
+                            ),
+                          )
+                        : Container(),
+                    users.me
+                        ? Container()
                         : Container(
                             height: 70,
                             width: 70,
@@ -658,7 +649,9 @@ class _InstaFeedScreenState extends State<InstaFeedScreen> {
           SizedBox(
             height: 3,
           ),
-          Text(users.username ?? '', style: textStyle)
+          !users.me
+              ? Text(users.username ?? '', style: textStyle)
+              : Container(),
         ],
       ),
     );
