@@ -27,7 +27,7 @@ class _LoginScreenState extends State<LoginScreen> {
                 height: MediaQuery.of(context).size.height * 0.6,
                 width: 80,
                 child: Center(
-                  child: Image.asset('assets/images/agoraLogo.png'),
+                  child: Image.asset('assets/images/3333.jpg'),
                 ),
               ),
               Center(

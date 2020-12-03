@@ -24,15 +24,9 @@ class FireStoreClass {
   }
 
   static Future<String> getImage({username}) async {
-    final snapShot = await _db
-        .collection(userCollection)
-        .document(username)
-        .get()
-        .then((DocumentSnapshot ds) {
-      var photo = ds.data['photoUrl'];
-      return photo;
-    });
-    return snapShot;
+    final snapShot =
+        await _db.collection(userCollection).document(username).get();
+    return snapShot.data['photoUrl'];
   }
 
   static Future<String> getName({username}) async {

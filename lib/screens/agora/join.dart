@@ -871,9 +871,11 @@ class _JoinPageState extends State<JoinPage> {
       if (state == 5) {
         _client.logout();
         // _log('Logout.');
-        setState(() {
-          _isLogin = false;
-        });
+        if (mounted) {
+          setState(() {
+            _isLogin = false;
+          });
+        }
       }
     };
     await _client.login(null, widget.username);
@@ -891,7 +893,9 @@ class _JoinPageState extends State<JoinPage> {
   Future<AgoraRtmChannel> _createChannel(String name) async {
     AgoraRtmChannel channel = await _client.createChannel(name);
     channel.onMemberJoined = (AgoraRtmMember member) async {
-      var img = await FireStoreClass.getImage(username: member.userId);
+      var img = await FireStoreClass.getImage(
+          username: member.userId ??
+              'https://nichemodels.co/wp-content/uploads/2019/03/user-dummy-pic.png');
       userMap.putIfAbsent(member.userId, () => img);
 
       _channel.getMembers().then((value) {
@@ -914,7 +918,9 @@ class _JoinPageState extends State<JoinPage> {
     };
     channel.onMessageReceived =
         (AgoraRtmMessage message, AgoraRtmMember member) async {
-      var img = await FireStoreClass.getImage(username: member.userId);
+      var img = await FireStoreClass.getImage(
+          username: member.userId ??
+              'https://nichemodels.co/wp-content/uploads/2019/03/user-dummy-pic.png');
       userMap.putIfAbsent(member.userId, () => img);
       _log(user: member.userId, info: message.text, type: 'message');
     };
