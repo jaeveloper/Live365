@@ -1,4 +1,4 @@
-# Agora Live Broadcasting Feature like Instagram
+# Live 365 Feature like Instagram
 This is made in flutter framework and with Firebase as backend. The video SDK used is <strong>Agora</strong>
 
 ## To run the app
