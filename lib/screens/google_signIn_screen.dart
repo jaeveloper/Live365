@@ -26,9 +26,9 @@ class _LoginScreenState extends State<LoginScreen> {
             children: [
               Container(
                 alignment: Alignment.center,
-                width: MediaQuery.of(context).size.width,
+                //width: MediaQuery.of(context).size.width,
                 child: Image.asset(
-                  'assets/images/3333.jpg',
+                  'assets/images/agoraLogo.png',
                 ),
               ),
               SizedBox(
