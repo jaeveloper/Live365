@@ -33,16 +33,19 @@ class FirebaseProvider {
         .setData({'displayName': currentUser.displayName});
 
     user = User(
-        uid: currentUser.uid,
-        name: currentUser.displayName,
-        email: currentUser.email,
-        displayName: username,
-        photoUrl: currentUser.photoUrl,
-        followers: '0',
-        following: '0',
-        bio: '',
-        posts: '0',
-        phone: '');
+      uid: currentUser.uid,
+      name: currentUser.displayName,
+      email: currentUser.email,
+      displayName: username,
+      photoUrl: currentUser.photoUrl,
+      followers: '0',
+      following: '0',
+      bio: '',
+      posts: '0',
+      phone: '',
+      status: '',
+      state: null,
+    );
 
     //  Map<String, String> mapdata = Map<String, dynamic>();
 
@@ -93,8 +96,7 @@ class FirebaseProvider {
       idToken: _signInAuthentication.idToken,
     );
 
-    final FirebaseUser user =
-        (await _auth.signInWithCredential(credential)).user;
+    final FirebaseUser user = (await _auth.signInWithCredential(credential));
     return user;
   }
 

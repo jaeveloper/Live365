@@ -22,13 +22,17 @@ class _LoginScreenState extends State<LoginScreen> {
       body: Stack(
         children: <Widget>[
           Column(
+            mainAxisAlignment: MainAxisAlignment.center,
             children: [
               Container(
-                height: MediaQuery.of(context).size.height * 0.6,
-                width: 80,
-                child: Center(
-                  child: Image.asset('assets/images/3333.jpg'),
+                alignment: Alignment.center,
+                width: MediaQuery.of(context).size.width,
+                child: Image.asset(
+                  'assets/images/3333.jpg',
                 ),
+              ),
+              SizedBox(
+                height: MediaQuery.of(context).size.height * 0.02,
               ),
               Center(
                 child: loginButton(),

@@ -1,5 +1,6 @@
 import 'dart:io';
 
+import 'package:agorartm/chat_functionality/screens/pageviews/chat_list_screen.dart';
 import 'package:agorartm/models/user.dart';
 import 'package:agorartm/resources/repository.dart';
 import 'package:agorartm/screens/agora/host.dart';
@@ -112,6 +113,7 @@ class _InstaHomeScreenState extends State<InstaHomeScreen> {
   @override
   void initState() {
     super.initState();
+
     pageController = new PageController();
     fetchFeed();
   }
@@ -149,7 +151,7 @@ class _InstaHomeScreenState extends State<InstaHomeScreen> {
           null,
           new Container(
             color: Color(0xff252E39), //Colors.white,
-            child: ChatScreen(),
+            child: ChatListScreen(),
           ), //InstaActivityScreen()),
           new Container(
             color: Color(0xff252E39), //Color(0xFF2C3F3F),

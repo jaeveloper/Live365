@@ -526,134 +526,148 @@ class _InstaFeedScreenState extends State<InstaFeedScreen> {
   Widget getStory(Live users) {
     return Container(
       margin: EdgeInsets.all(5),
-      child: Column(
-        children: <Widget>[
-          Container(
-              height: 70,
-              width: 70,
-              child: GestureDetector(
-                onTap: () {
-                  if (users.me == true) {
-                    // Host function
-                    onCreate(username: users.username, image: users.image);
-                  } else {
-                    // Join function
-                    onJoin(
-                        channelName: users.username,
-                        channelId: users.channelId,
-                        username: username,
-                        hostImage: users.image,
-                        userImage: image);
-                  }
-                },
-                child: Stack(
-                  alignment: Alignment(0, 0),
-                  children: <Widget>[
-                    !users.me
-                        ? Container(
-                            height: 60,
-                            width: 60,
-                            child: Container(
-                              decoration: BoxDecoration(
-                                  shape: BoxShape.circle,
-                                  gradient: LinearGradient(
-                                      colors: [
-                                        Colors.indigo,
-                                        Colors.blue,
-                                        Colors.cyan
-                                      ],
-                                      begin: Alignment.topLeft,
-                                      end: Alignment.bottomRight)),
-                            ),
-                          )
-                        : SizedBox(
-                            height: 0,
-                          ),
-                    !users.me
-                        ? Container(
-                            height: 55.5,
-                            width: 55.5,
-                            child: CircleAvatar(
-                              backgroundColor: Colors.black,
-                            ),
-                          )
-                        : Container(),
-                    !users.me
-                        ? CachedNetworkImage(
-                            imageUrl: users.image,
-                            imageBuilder: (context, imageProvider) => Container(
-                              width: 52.0,
-                              height: 52.0,
-                              decoration: BoxDecoration(
-                                shape: BoxShape.circle,
-                                image: DecorationImage(
-                                    image: imageProvider, fit: BoxFit.cover),
-                              ),
-                            ),
-                          )
-                        : Container(),
-                    users.me
-                        ? Container()
-                        : Container(
-                            height: 70,
-                            width: 70,
-                            alignment: Alignment.bottomCenter,
-                            child: Stack(
-                              alignment: Alignment.center,
-                              children: <Widget>[
-                                Container(
-                                  height: 17,
-                                  width: 25,
-                                  decoration: new BoxDecoration(
-                                    shape: BoxShape.rectangle,
-                                    borderRadius: BorderRadius.all(
-                                        Radius.circular(
-                                            4.0) //         <--- border radius here
-                                        ),
-                                    gradient: LinearGradient(
-                                        colors: [Colors.black, Colors.black],
-                                        begin: Alignment.centerLeft,
-                                        end: Alignment.centerRight),
+      child: !users.me
+          ? Column(
+              children: <Widget>[
+                Container(
+                    height: 70,
+                    width: 70,
+                    child: GestureDetector(
+                      onTap: () {
+                        if (users.me == true) {
+                          // Host function
+                          onCreate(
+                              username: users.username, image: users.image);
+                        } else {
+                          // Join function
+                          onJoin(
+                              channelName: users.username,
+                              channelId: users.channelId,
+                              username: username,
+                              hostImage: users.image,
+                              userImage: image);
+                        }
+                      },
+                      child: Stack(
+                        alignment: Alignment(0, 0),
+                        children: <Widget>[
+                          !users.me
+                              ? Container(
+                                  height: 60,
+                                  width: 60,
+                                  child: Container(
+                                    decoration: BoxDecoration(
+                                        shape: BoxShape.circle,
+                                        gradient: LinearGradient(
+                                            colors: [
+                                              Colors.indigo,
+                                              Colors.blue,
+                                              Colors.cyan
+                                            ],
+                                            begin: Alignment.topLeft,
+                                            end: Alignment.bottomRight)),
                                   ),
+                                )
+                              : SizedBox(
+                                  height: 0,
                                 ),
-                                Container(
-                                    decoration: new BoxDecoration(
-                                      shape: BoxShape.rectangle,
-                                      borderRadius: BorderRadius.all(
-                                          Radius.circular(
-                                              2.0) //         <--- border radius here
-                                          ),
-                                      gradient: LinearGradient(
-                                          colors: [
-                                            Colors.indigo,
-                                            Colors.blueAccent
-                                          ],
-                                          begin: Alignment.centerLeft,
-                                          end: Alignment.centerRight),
+                          !users.me
+                              ? Container(
+                                  height: 55.5,
+                                  width: 55.5,
+                                  child: CircleAvatar(
+                                    backgroundColor: Colors.black,
+                                  ),
+                                )
+                              : SizedBox(
+                                  height: 0,
+                                ),
+                          !users.me
+                              ? CachedNetworkImage(
+                                  imageUrl: users.image,
+                                  imageBuilder: (context, imageProvider) =>
+                                      Container(
+                                    width: 52.0,
+                                    height: 52.0,
+                                    decoration: BoxDecoration(
+                                      shape: BoxShape.circle,
+                                      image: DecorationImage(
+                                          image: imageProvider,
+                                          fit: BoxFit.cover),
                                     ),
-                                    child: Padding(
-                                      padding: const EdgeInsets.all(3.0),
-                                      child: Text(
-                                        'LIVE',
-                                        style: TextStyle(
-                                            fontSize: 7,
-                                            color: Colors.white,
-                                            fontWeight: FontWeight.bold),
+                                  ),
+                                )
+                              : Container(),
+                          users.me
+                              ? Container()
+                              : Container(
+                                  height: 70,
+                                  width: 70,
+                                  alignment: Alignment.bottomCenter,
+                                  child: Stack(
+                                    alignment: Alignment.center,
+                                    children: <Widget>[
+                                      Container(
+                                        height: 17,
+                                        width: 25,
+                                        decoration: new BoxDecoration(
+                                          shape: BoxShape.rectangle,
+                                          borderRadius: BorderRadius.all(
+                                              Radius.circular(
+                                                  4.0) //         <--- border radius here
+                                              ),
+                                          gradient: LinearGradient(
+                                              colors: [
+                                                Colors.black,
+                                                Colors.black
+                                              ],
+                                              begin: Alignment.centerLeft,
+                                              end: Alignment.centerRight),
+                                        ),
                                       ),
-                                    )),
-                              ],
-                            ))
-                  ],
+                                      Container(
+                                          decoration: new BoxDecoration(
+                                            shape: BoxShape.rectangle,
+                                            borderRadius: BorderRadius.all(
+                                                Radius.circular(
+                                                    2.0) //         <--- border radius here
+                                                ),
+                                            gradient: LinearGradient(
+                                                colors: [
+                                                  Colors.indigo,
+                                                  Colors.blueAccent
+                                                ],
+                                                begin: Alignment.centerLeft,
+                                                end: Alignment.centerRight),
+                                          ),
+                                          child: Padding(
+                                            padding: const EdgeInsets.all(3.0),
+                                            child: Text(
+                                              'LIVE',
+                                              style: TextStyle(
+                                                  fontSize: 7,
+                                                  color: Colors.white,
+                                                  fontWeight: FontWeight.bold),
+                                            ),
+                                          )),
+                                    ],
+                                  ))
+                        ],
+                      ),
+                    )),
+                SizedBox(
+                  height: 3,
                 ),
-              )),
-          SizedBox(
-            height: 3,
-          ),
-          !users.me
-              ? Text(users.username ?? '', style: textStyle)
-              : Container(),
-        ],
-      ),
+                !users.me
+                    ? Text(users.username ?? '', style: textStyle)
+                    : SizedBox(
+                        height: 0,
+                      ),
+              ],
+            )
+          : SizedBox(
+              height: 0,
+            ),
     );
   }
 

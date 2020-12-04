@@ -3,7 +3,6 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'dart:async';
 
-
 final FirebaseAuth _auth = FirebaseAuth.instance;
 final GoogleSignIn googleSignIn = GoogleSignIn();
 
@@ -17,7 +16,7 @@ Future<String> signInWithGoogle() async {
   );
 
   final authResult = await _auth.signInWithCredential(credential);
-  final user = authResult.user;
+  final user = authResult;
   assert(!user.isAnonymous);
   assert(await user.getIdToken() != null);
   final currentUser = await _auth.currentUser();
@@ -41,7 +40,7 @@ Future<int> registerUser({email, name, pass, username, image}) async {
     var result = await _auth.createUserWithEmailAndPassword(
         email: email, password: pass);
 
-    var user = result.user;
+    var user = result;
 
     var info = UserUpdateInfo();
     info.displayName = name;
@@ -92,7 +91,7 @@ Future<int> loginFirebase(String email, String pass) async {
     await FireStoreClass.getDetails(email: email);
     var result =
         await _auth.signInWithEmailAndPassword(email: email, password: pass);
-    var user = result.user;
+    var user = result;
     if (user == null) {
       return null;
     }
