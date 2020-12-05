@@ -350,7 +350,7 @@ class _ChatScreenState extends State<ChatScreen> {
                   focusNode: textFieldFocus,
                   onTap: () => hideEmojiContainer(),
                   style: TextStyle(
-                    color: Colors.white,
+                    color: Colors.black,
                   ),
                   onChanged: (val) {
                     (val.length > 0 && val.trim() != "")

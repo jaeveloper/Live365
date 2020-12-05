@@ -205,8 +205,14 @@ class _InstaHomeScreenState extends State<InstaHomeScreen> {
                   ),
                   backgroundColor: Colors.white),
               new BottomNavigationBarItem(
-                  activeIcon: Container(),
-                  icon: Container(),
+                  activeIcon: Container(
+                    width: 0.01,
+                    height: 0.01,
+                  ),
+                  icon: Container(
+                    width: 0.01,
+                    height: 0.01,
+                  ),
                   //label: '',
                   backgroundColor: Colors.white),
               new BottomNavigationBarItem(

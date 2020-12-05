@@ -19,8 +19,8 @@ class ChatListScreen extends StatelessWidget {
     return CustomAppBar(
       leading: Container(),
       title: Text(
-        'MESSAGES',
-        style: TextStyle(color: Colors.white70, fontSize: 18),
+        'Messages',
+        style: TextStyle(color: Colors.white70, fontSize: 20),
       ),
       centerTitle: true,
       actions: <Widget>[
