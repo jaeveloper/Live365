@@ -166,32 +166,29 @@ class _InstaFriendProfileScreenState extends State<InstaFriendProfileScreen> {
                         children: <Widget>[
                           Container(),
                           Padding(
-                            padding: const EdgeInsets.only(
-                              top: 40.0,
-                            ),
-                            child: Container(
-                              width: 110.0,
-                              height: 110.0,
-                              decoration: BoxDecoration(
-                                borderRadius: BorderRadius.circular(80.0),
-                                image: DecorationImage(
-                                    image: _user.photoUrl.isEmpty
-                                        ? AssetImage('assets/no_image.png')
-                                        : NetworkImage(_user.photoUrl),
-                                    fit: BoxFit.cover),
-                              ),
-                            ),
+                            padding: const EdgeInsets.only(top: 20.0),
+                            child: Text(_user.name,
+                                style: TextStyle(
+                                    color: Colors.white,
+                                    fontWeight: FontWeight.bold,
+                                    fontSize: 20.0)),
                           ),
                           Container()
                         ],
                       ),
                       Padding(
-                        padding: const EdgeInsets.only(top: 10.0),
-                        child: Text(_user.name,
-                            style: TextStyle(
-                                color: Colors.white,
-                                fontWeight: FontWeight.bold,
-                                fontSize: 20.0)),
+                        padding: const EdgeInsets.only(top: 10.0, bottom: 10.0),
+                        child: Container(
+                            width: 90.0,
+                            height: 90.0,
+                            decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(80.0),
+                              image: DecorationImage(
+                                  image: _user.photoUrl.isEmpty
+                                      ? AssetImage('assets/no_image.png')
+                                      : NetworkImage(_user.photoUrl),
+                                  fit: BoxFit.cover),
+                            )),
                       ),
                       Row(
                         mainAxisAlignment: MainAxisAlignment.center,
@@ -213,7 +210,8 @@ class _InstaFriendProfileScreenState extends State<InstaFriendProfileScreen> {
                             child: IconButton(
                                 icon: Icon(
                                   Icons.mail,
-                                  color: Colors.orange,
+                                  color: Colors.white70,
+                                  size: 21,
                                 ),
                                 color: Colors.black,
                                 onPressed: () {}),
@@ -232,7 +230,7 @@ class _InstaFriendProfileScreenState extends State<InstaFriendProfileScreen> {
                             : Container(),
                       ),
                       Padding(
-                        padding: const EdgeInsets.only(top: 8),
+                        padding: const EdgeInsets.only(top: 0),
                         child: Column(
                           children: <Widget>[
                             Container(

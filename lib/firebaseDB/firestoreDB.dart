@@ -61,6 +61,11 @@ class FireStoreClass {
     await storageReference.getDownloadURL().then((fileURL) async {
       // To fetch the uploaded data's url
 
+      _db
+          .collection("display_names")
+          .document(username)
+          .setData({'displayName': username});
+
       await _db.collection(userCollection).document(uid).setData({
         'name': name,
         'uid': uid,
@@ -72,6 +77,9 @@ class FireStoreClass {
         'posts': '0',
         'bio': '',
         'phone': '',
+        'status': '',
+        'state': null,
+        'role': 'user'
       });
       return true;
     });

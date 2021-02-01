@@ -1,3 +1,5 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
+
 class User {
   String uid;
   String name;
@@ -11,6 +13,7 @@ class User {
   String phone;
   String status;
   int state;
+  String role;
 
   User({
     this.uid,
@@ -25,6 +28,7 @@ class User {
     this.phone,
     this.status,
     this.state,
+    this.role,
   });
 
   Map toMap(User user) {
@@ -41,6 +45,7 @@ class User {
     data['phone'] = user.phone;
     data['status'] = user.status;
     data['state'] = user.state;
+    data['role'] = user.role;
     return data;
   }
 
@@ -57,5 +62,24 @@ class User {
     this.phone = mapData['phone'];
     this.status = mapData['status'];
     this.state = mapData['state'];
+    this.role = mapData['role'];
+  }
+
+  factory User.fromDoc(DocumentSnapshot doc) {
+    return User(
+      uid: doc.documentID,
+      name: doc['name'],
+      email: doc['email'],
+      photoUrl: doc['photoUrl'],
+      displayName: doc['displayName'],
+      followers: doc['followers'],
+      following: doc['following'],
+      bio: doc['bio'],
+      posts: doc['posts'],
+      phone: doc['phone'],
+      status: doc['status'],
+      state: doc['state'],
+      role: doc['role'],
+    );
   }
 }

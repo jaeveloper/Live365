@@ -31,7 +31,7 @@ dependencies:
   rxdart:
   shimmer:
   flutter_launcher_icons: 0.7.5
-  #shared_preferences: 0.5.7
+  shared_preferences: 0.5.7
   agora_rtc_engine: 1.0.5
   agora_rtm: 0.9.11
   sliding_up_panel: ^1.0.2
@@ -82,6 +82,7 @@ flutter:
     - assets/no_image.png
     - assets/blankimage.png
     - assets/facebook.png
+    - assets/facebook.jpg
     - assets/Navigation Icons/
     - assets/images/
 

@@ -41,21 +41,13 @@ class _SplashScreenState extends State<SplashScreen> {
         width: MediaQuery.of(context).size.width,
         color: Color(0xff252E39), //Color(0xFF2C3F3F),
         child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
             Container(
-              height: MediaQuery.of(context).size.height - 100,
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.center,
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: <Widget>[
-                  Container(
-                    height: 80,
-                    width: 80,
-                    child: Center(
-                      child: image,
-                    ),
-                  ),
-                ],
+              height: 80,
+              width: 80,
+              child: Center(
+                child: image,
               ),
             ),
           ],

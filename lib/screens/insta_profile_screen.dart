@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'package:agorartm/screens/admin_page.dart';
 import 'package:async/async.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -52,6 +53,7 @@ class _InstaProfileScreenState extends State<InstaProfileScreen> {
 
   @override
   Widget build(BuildContext context) {
+    //print(_user.role);
     return SafeArea(
       child: Scaffold(
         extendBody: true,
@@ -70,7 +72,7 @@ class _InstaProfileScreenState extends State<InstaProfileScreen> {
                         children: <Widget>[
                           Container(
                             alignment: Alignment.topCenter,
-                            padding: EdgeInsets.only(top: 20, left: 10),
+                            padding: EdgeInsets.only(top: 10, left: 10),
                             child: GestureDetector(
                                 child: Container(
                                   height:
@@ -91,24 +93,19 @@ class _InstaProfileScreenState extends State<InstaProfileScreen> {
                                                   phone: _user.phone))));
                                 }),
                           ),
-                          Padding(
+                          Container(
+                            alignment: Alignment.center,
                             padding:
-                                const EdgeInsets.only(top: 20.0, bottom: 20.0),
-                            child: Container(
-                                width: 100.0,
-                                height: 100.0,
-                                decoration: BoxDecoration(
-                                  borderRadius: BorderRadius.circular(80.0),
-                                  image: DecorationImage(
-                                      image: _user.photoUrl.isEmpty
-                                          ? AssetImage('assets/no_image.png')
-                                          : NetworkImage(_user.photoUrl),
-                                      fit: BoxFit.cover),
-                                )),
+                                const EdgeInsets.only(left: 10.0, top: 15.0),
+                            child: Text(_user.name,
+                                style: TextStyle(
+                                    color: Colors.white,
+                                    fontWeight: FontWeight.w500,
+                                    fontSize: 20.0)),
                           ),
                           Container(
                             alignment: Alignment.topLeft,
-                            padding: EdgeInsets.only(top: 20, right: 10),
+                            padding: EdgeInsets.only(top: 10, right: 10),
                             child: GestureDetector(
                               child: Stack(
                                 alignment: Alignment(0.1, 0.1),
@@ -131,14 +128,19 @@ class _InstaProfileScreenState extends State<InstaProfileScreen> {
                           ),
                         ],
                       ),
-                      Container(
-                        alignment: Alignment.center,
-                        //padding: const EdgeInsets.only(left: 25.0, top: 30.0),
-                        child: Text(_user.name,
-                            style: TextStyle(
-                                color: Colors.white,
-                                fontWeight: FontWeight.bold,
-                                fontSize: 20.0)),
+                      Padding(
+                        padding: const EdgeInsets.only(top: 10.0, bottom: 10.0),
+                        child: Container(
+                            width: 90.0,
+                            height: 90.0,
+                            decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(80.0),
+                              image: DecorationImage(
+                                  image: _user.photoUrl.isEmpty
+                                      ? AssetImage('assets/no_image.png')
+                                      : NetworkImage(_user.photoUrl),
+                                  fit: BoxFit.cover),
+                            )),
                       ),
                       Container(
                         alignment: Alignment.bottomCenter,
@@ -248,36 +250,28 @@ class _InstaProfileScreenState extends State<InstaProfileScreen> {
                                 ),
                               ),
                             ),
-                            //   GestureDetector(
-                            //     child: Padding(
-                            //       padding: const EdgeInsets.only(
-                            //           top: 12.0, left: 20.0, right: 20.0),
-                            //       child: Container(
-                            //         width: 210.0,
-                            //         height: 30.0,
-                            //         decoration: BoxDecoration(
-                            //             color: Colors.white,
-                            //             borderRadius: BorderRadius.circular(4.0),
-                            //             border: Border.all(color: Colors.grey)),
-                            //         child: Center(
-                            //           child: Text('Edit Profile',
-                            //               style: TextStyle(color: Colors.black)),
+                            //  GestureDetector(
+                            //         child: Padding(
+                            //           padding: const EdgeInsets.only(
+                            //               top: 12.0, left: 20.0, right: 20.0),
+                            //           child: Container(
+                            //             width: 210.0,
+                            //             height: 30.0,
+                            //             decoration: BoxDecoration(
+                            //                 color: Colors.white,
+                            //                 borderRadius:
+                            //                     BorderRadius.circular(4.0),
+                            //                 border:
+                            //                     Border.all(color: Colors.grey)),
+                            //             child: Center(
+                            //               child: Text('Admin Page',
+                            //                   style: TextStyle(
+                            //                       color: Colors.black)),
+                            //             ),
+                            //           ),
                             //         ),
-                            //       ),
-                            //     ),
-                            //     onTap: () {
-                            //       Navigator.push(
-                            //           context,
-                            //           MaterialPageRoute(
-                            //               builder: ((context) =>
-                            //                   EditProfileScreen(
-                            //                       photoUrl: _user.photoUrl,
-                            //                       email: _user.email,
-                            //                       bio: _user.bio,
-                            //                       name: _user.displayName,
-                            //                       phone: _user.phone))));
-                            //     },
-                            //   )
+                            //         onTap: () {},
+                            //       )
                           ],
                         ),
                       )
@@ -315,18 +309,7 @@ class _InstaProfileScreenState extends State<InstaProfileScreen> {
                                   child: Image.asset(
                                       'assets/Navigation Icons/sett.png'),
                                 ),
-                                onTap: () {
-                                  Navigator.push(
-                                      context,
-                                      MaterialPageRoute(
-                                          builder: ((context) =>
-                                              EditProfileScreen(
-                                                  photoUrl: _user.photoUrl,
-                                                  email: _user.email,
-                                                  bio: _user.bio,
-                                                  name: _user.displayName,
-                                                  phone: _user.phone))));
-                                }),
+                                onTap: () {}),
                           ),
                           Padding(
                             padding:
@@ -347,14 +330,7 @@ class _InstaProfileScreenState extends State<InstaProfileScreen> {
                                 child: Image.asset(
                                     'assets/Navigation Icons/rect.png'),
                               ),
-                              onTap: () {
-                                _repository.signOut().then((v) {
-                                  Navigator.pushReplacement(context,
-                                      MaterialPageRoute(builder: (context) {
-                                    return MyApp();
-                                  }));
-                                });
-                              },
+                              onTap: () {},
                             ),
                           ),
                         ],
@@ -411,6 +387,17 @@ class _InstaProfileScreenState extends State<InstaProfileScreen> {
         builder: ((context) {
           return SimpleDialog(
             children: <Widget>[
+              _user.role == "admin"
+                  ? SimpleDialogOption(
+                      child: Text('Admin Page'),
+                      onPressed: () {
+                        Navigator.push(context,
+                            MaterialPageRoute(builder: (context) {
+                          return AdminPage();
+                        }));
+                      },
+                    )
+                  : Container(),
               SimpleDialogOption(
                 child: Text('Logout'),
                 onPressed: () {

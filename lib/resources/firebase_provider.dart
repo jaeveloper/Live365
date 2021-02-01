@@ -11,6 +11,7 @@ import 'package:google_sign_in/google_sign_in.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'dart:async';
 import 'package:firebase_storage/firebase_storage.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class FirebaseProvider {
   final FirebaseAuth _auth = FirebaseAuth.instance;
@@ -33,19 +34,19 @@ class FirebaseProvider {
         .setData({'displayName': currentUser.displayName});
 
     user = User(
-      uid: currentUser.uid,
-      name: currentUser.displayName,
-      email: currentUser.email,
-      displayName: username,
-      photoUrl: currentUser.photoUrl,
-      followers: '0',
-      following: '0',
-      bio: '',
-      posts: '0',
-      phone: '',
-      status: '',
-      state: null,
-    );
+        uid: currentUser.uid,
+        name: currentUser.displayName,
+        email: currentUser.email,
+        displayName: username,
+        photoUrl: currentUser.photoUrl,
+        followers: '0',
+        following: '0',
+        bio: '',
+        posts: '0',
+        phone: '',
+        status: '',
+        state: null,
+        role: 'user');
 
     //  Map<String, String> mapdata = Map<String, dynamic>();
 
@@ -81,8 +82,14 @@ class FirebaseProvider {
   }
 
   Future<void> signOut() async {
-    await _googleSignIn.disconnect();
-    await _googleSignIn.signOut();
+    final prefs = await SharedPreferences.getInstance();
+    prefs.clear();
+    try {
+      await _googleSignIn.disconnect();
+      await _googleSignIn.signOut();
+    } catch (e) {
+      print(e);
+    }
     return await _auth.signOut();
   }
 
@@ -163,6 +170,11 @@ class FirebaseProvider {
         await reference.collection("likes").document(userId).get();
     print('DOC ID : ${snapshot.reference.path}');
     return snapshot.exists;
+  }
+
+  Future<QuerySnapshot> displayUsers() {
+    Future<QuerySnapshot> users = _firestore.collection("users").getDocuments();
+    return users;
   }
 
   Future<List<DocumentSnapshot>> retrievePosts(FirebaseUser user) async {
